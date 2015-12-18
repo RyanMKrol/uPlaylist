@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>jQuery UI Sortable - Default functionality</title>
+    <link rel="stylesheet" href = "sortingStyle.css">
+    <script src = "jquery/jquery.js"></script>
+    <script src = "jquery-ui/jquery-ui.js"></script>
+    <script>
+    $(function() {
+        $( "#sortable" ).sortable();
+        $( "#sortable" ).disableSelection();
+    });
+    </script>
+</head>
+<body>
+<div class = "centered">
+<ul id="sortable">
+    <li>Item 1</li>
+    <li>Item 2</li>
+    <li>Item 3</li>
+    <li>Item 4</li>
+    <li>Item 5</li>
+    <li>Item 6</li>
+    <li>Item 7</li>
+</ul>
+</div>
+
+</body>
+</html>
