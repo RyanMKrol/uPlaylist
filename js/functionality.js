@@ -1,5 +1,6 @@
 //because of recursive calls to functions i need to store some variables globally
 var returnBoolean = false;
+//used if more than one API call is needed
 var nextPageToken = undefined;
 var requestURL = "";
 var apiKey        = 'AIzaSyAILBP5kYFfluEpZReamdHDFM68dtLEWro';
@@ -91,20 +92,7 @@ function getPlaylistData(input){
     sessionStorage.skipPoints         = "";
 
     //will store all of the playlist data in session storage
-    var returnBoolean = apiInteraction();
-
-    //i check here for the value of a boolean, if the previous API interaction was successful, the value will be true
-    //elsewise it'll be false, and the following alert message will be shows, and the textbox will highlight all of what's in it
-
-    //*** need to put some error checking in there ***
-
-    /*if(!returnBoolean){
-        alert("Sorry, the playlist you entered is not available on YouTube");
-        highlightText(input.playlistURL);
-    }*/
-
-    //the boolean is sent back up the chain to tell the form whether to proceed or not
-    //return returnBoolean;
+    apiInteraction();
 }
 
 function apiInteraction(){
@@ -128,6 +116,12 @@ function apiInteraction(){
         // the function that will be carried out on success
         success  : function(data) {
             parseAllTheData(data);
+        },
+        error : function(){
+          //the loading will now diasappear
+          $('body').switchClass("loading", "loaded");
+          $('input').css("z-index", "1");
+          alert("Apologies, your playlist does not appear to exist");
         }
     });
 }
@@ -171,13 +165,9 @@ function getRunTime(){
     var requestURL = baseURL.concat(sessionStorage.tempPlaylistItems).concat('&key=').concat(apiKey);
 
     $.ajax({
-        //stops the other events on the page from firing
         async    : true,
-        //the URL is what we built up earlier
         url      : requestURL,
-        // the method of ajax i'm using is get
         type     : 'GET',
-        // the function that will be carried out on success
         success  : function(data) {
             // gets the time from the youtube api, splits it all up according to the format, and then converts the minutes
             // to seconds, adds that to the seconds, and then stores it in sessionStorage
@@ -186,16 +176,13 @@ function getRunTime(){
                 var seconds      = 0;
                 var minutes      = 0;
                 var timeReturned = val.contentDetails.duration;
-
                 if(timeReturned.search('M') != -1){
-                    minutes      = (parseInt(timeReturned.split("PT")[1].split('M')[0])*60);
-
-                    if(timeReturned.search('S') != -1){
-                        seconds      = parseInt(timeReturned.split("M")[1].split('S')[0]);
-                    }
-
+                  minutes        = (parseInt(timeReturned.split("PT")[1].split('M')[0])*60);
+                  if(timeReturned.search('S') != -1){
+                    seconds      = parseInt(timeReturned.split("M")[1].split('S')[0]);
+                  }
                 } else {
-                    seconds      = parseInt(timeReturned.split("PT")[1].split('S')[0]);
+                  seconds        = parseInt(timeReturned.split("PT")[1].split('S')[0]);
                 }
                 var time         = minutes + seconds;
                 sessionStorage.runTimes = sessionStorage.runTimes.concat(time).concat(" ");
