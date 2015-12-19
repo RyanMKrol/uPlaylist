@@ -5,7 +5,8 @@ var uPlaylist =  uPlaylist || {};
 uPlaylist.AppRouter = Backbone.Router.extend({
 
     routes: {
-        ""                    : "home"
+        ""    : "home",
+        ":id" : "movieRender"
     },
 
     defaultRoute: function() {
@@ -13,15 +14,22 @@ uPlaylist.AppRouter = Backbone.Router.extend({
     },
 
     initialize: function() {
-
+      this.Songs = new uPlaylist.Songs();
     },
 
     home: function() {
 
         if (!this.homeView) {
             this.homeView = new uPlaylist.Home();
-        };
+        }
         uPlaylist.app.showView('#content', this.homeView);
+    },
+
+    movieRender: function(){
+      if(!this.listView){
+        this.listView = new uPlaylist.ListView();
+      }
+      uPlaylist.app.showView('#content', this.listView);
     },
     //
     // about: function() {
@@ -135,7 +143,7 @@ Backbone.View.prototype.close = function () {
 
 };
 
-uPlaylist.utils.loadTemplates(['Home' ] , function() {
+uPlaylist.utils.loadTemplates(['Home', 'ListView' ] , function() {
 
     uPlaylist.app = new uPlaylist.AppRouter();
     Backbone.history.start();
