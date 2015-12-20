@@ -2,7 +2,7 @@
 
 var uPlaylist =  uPlaylist || {};
 
-uPlaylist.Songs = Backbone.Collection.extend({
+uPlaylist.Playlists = Backbone.Collection.extend({
 
     //model that the collection uses
     model : uPlaylist.Song,

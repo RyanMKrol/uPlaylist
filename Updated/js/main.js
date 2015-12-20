@@ -14,15 +14,15 @@ uPlaylist.AppRouter = Backbone.Router.extend({
     },
 
     initialize: function() {
-      this.Songs = new uPlaylist.Songs();
+      this.Playlists = new uPlaylist.Playlists();
     },
 
     home: function() {
-
-        if (!this.homeView) {
-            this.homeView = new uPlaylist.Home();
-        }
-        uPlaylist.app.showView('#content', this.homeView);
+      var playlist = new uPlaylist.Playlist();
+      if (!this.homeView) {
+          this.homeView = new uPlaylist.Home({model: playlist});
+      }
+      uPlaylist.app.showView('#content', this.homeView);
     },
 
     movieRender: function(){
