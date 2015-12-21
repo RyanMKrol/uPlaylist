@@ -45,6 +45,7 @@ uPlaylist.utils = {
 	} else {
             var formGroup = $("input[name='" + field + "']").parent();
 	};
+        console.log(formGroup);
         formGroup.addClass('has-error');  // was 'error' in Bootstrap 2
         $('.help-block', formGroup).html(message);
     },

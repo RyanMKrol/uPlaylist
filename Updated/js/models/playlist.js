@@ -10,6 +10,11 @@ uPlaylist.Playlist = Backbone.Model.extend({
 
     initialize: function() {
 
+      //backbone has issues with having properties that are arrays, apparently
+      // this is how you go about it
+      if( !this.get('songs') ){
+        this.set({songs: new Array()});
+      }
     },
 
     validate: function(){
@@ -19,9 +24,9 @@ uPlaylist.Playlist = Backbone.Model.extend({
       var is_currently_playing = input.search('watch');
 
       if(valid_youtube_link == (-1) || valid_playlist_link == (-1)){
-        alert("The playlist must be from YouTube and have a playlist ID, i.e. this will not work on your history.\n An example URL would be: https://www.youtube.com/playlist?list=PLMNUXrGDzNpA_HRobzHdGpOfSb4O2OUlB");
+        return {isValid: false, message: 'Link must be a youtube link with a valid playlist ID'};
       } else {
-        alert("hey you did good");
+        return {isValid: true};
       }
 
       // //if the search is invalid '-1' will be returned and the user should be alerted
