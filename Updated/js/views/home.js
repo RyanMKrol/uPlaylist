@@ -2,10 +2,6 @@
 
 var uPlaylist =  uPlaylist || {};
 
-//really need a better place to put this, I can look into it later
-uPlaylist.api_key = 'AIzaSyAILBP5kYFfluEpZReamdHDFM68dtLEWro';
-uPlaylist.api_URL_base = 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=49&playlistId=';
-
 uPlaylist.Home = Backbone.View.extend({
 
   template: _.template("../../tpl/Home.html"),
@@ -44,12 +40,6 @@ uPlaylist.Home = Backbone.View.extend({
         alert("playlist could not persist");
       }
     });
-  },
-
-  parseData: function(){
-    //building up the URL to use with the API
-    var request_URL = uPlaylist.api_URL_base.concat(new String(this.model.id)).concat('&key=').concat(uPlaylist.api_key);
-    console.log("parsing some data yo");
   },
 
   render: function () {

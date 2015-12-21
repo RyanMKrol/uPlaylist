@@ -52,11 +52,7 @@ uPlaylist.AppRouter = Backbone.Router.extend({
       }, 1000);
     } else {
       setTimeout(function(){
-        $('body').switchClass("loading", "loaded");
-        $('input').css("z-index", "0");
-
-        //parsing
-
+        playlistModel.parseData();
       }, 1000);
     }
   }
