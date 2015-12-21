@@ -3,13 +3,10 @@
 var uPlaylist =  uPlaylist || {};
 
 uPlaylist.Playlists = Backbone.Collection.extend({
-
     //model that the collection uses
-    model : uPlaylist.Song,
-
+    model : uPlaylist.Playlist,
     //storage method used by backbone
     localStorage: new Backbone.LocalStorage('uPlaylist'),
-
     //function called when model created
     initialize: function(){
       this.fetch();

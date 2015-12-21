@@ -14,23 +14,25 @@ uPlaylist.AppRouter = Backbone.Router.extend({
     },
 
     initialize: function() {
-      this.Playlists = new uPlaylist.Playlists();
+      this.playlists = new uPlaylist.Playlists();
+      this.playlists.fetch();
     },
 
     home: function() {
       var playlist = new uPlaylist.Playlist();
-      if (!this.homeView) {
-          this.homeView = new uPlaylist.Home({model: playlist});
+      var self = this;
+      if (!self.homeView) {
+          self.homeView = new uPlaylist.Home({model: playlist, collection: self.playlists});
       }
-      uPlaylist.app.showView('#content', this.homeView);
+      uPlaylist.app.showView('#content', self.homeView);
     },
 
-    movieRender: function(){
-      if(!this.listView){
-        this.listView = new uPlaylist.ListView();
-      }
-      uPlaylist.app.showView('#content', this.listView);
-    },
+    // movieRender: function(){
+    //   if(!this.listView){
+    //     this.listView = new uPlaylist.ListView();
+    //   }
+    //   uPlaylist.app.showView('#content', this.listView);
+    // },
     //
     // about: function() {
     //     if (!this.aboutView) {

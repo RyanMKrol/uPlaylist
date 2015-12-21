@@ -1,11 +1,17 @@
 "use strict";
 
 var uPlaylist =  uPlaylist || {};
+
+//really need a better place to put this, I can look into it later
+uPlaylist.api_key = 'AIzaSyAILBP5kYFfluEpZReamdHDFM68dtLEWro';
+uPlaylist.api_URL_base = 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=49&playlistId=';
+
 uPlaylist.Home = Backbone.View.extend({
 
   events: {
       "submit form": "submit"
   },
+
   submit: function(event) {
 
     event.preventDefault();
@@ -25,33 +31,47 @@ uPlaylist.Home = Backbone.View.extend({
       //starts the loading animation
       $('body').switchClass("loaded", "loading");
       $('input').css("z-index", "0");
-
+      this.savePlaylist();
       //waits for the animation on the loading to finish and then continues
-      setTimeout(function(){
-          self.parseData();
-      }, 1000);
-
+      // setTimeout(function(){
+      //     self.parseData();
+      // }, 1000);
     }
+  },
 
-
-    // uPlaylist.app.navigate('movies', {replace:true, trigger:true});
-    //
-    // var newMovie = this.model.isNew();
-    // this.model.collection.create(this.model, {
+  savePlaylist: function() {
+    var newMovie = this.model.isNew();
+    console.log("about to call");
+    // this.collection.create( this.model, {
     //   wait: true,
     //   success: function(model, response) {
-    //     // Set the URL, to reflect the assigned movie-id for new movies
-    //     if (newMovie) {
-    //       uPlaylist.app.navigate('movies', {replace:true, trigger:true});
-    //       // model.reviews.url = '/movies/' + model._id + '/reviews';
-    //     };
-    //     uPlaylist.utils.showAlert('Success!', 'Movie saved', 'alert-success');
+    //     // later, we'll navigate to the browse view upon success
+    //     console.log("doing something");
+    //     movieApp.app.navigate('#'+ model.id, {replace:true, trigger:true});
+    //     console.log("we've moved");
     //   },
-    //   error: function (model, err) {
-    //     uPlaylist.utils.requestFailed(err);
+    //   error: function(model, response) {
+    //     console.log("you messed up son");
     //   }
+    // });
+    this.model.save();
+    this.model.save( null, {
+      wait: true,
+      success: function(model, response) {
+        // later, we'll navigate to the browse view upon success
+        console.log("doing something");
+        movieApp.app.navigate('#'+ model.id, {replace:true, trigger:true});
+        console.log("we've moved");
+      },
+      error: function(model, response) {
+        console.log("you messed up son");
+      }
+    });
+
   },
   parseData: function(){
+    //building up the URL to use with the API
+    var request_URL = uPlaylist.api_URL_base.concat(new String(this.model.id)).concat('&key=').concat(uPlaylist.api_key);
     console.log("parsing some data yo");
   },
 
