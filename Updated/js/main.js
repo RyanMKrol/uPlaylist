@@ -9,7 +9,8 @@ uPlaylist.AppRouter = Backbone.Router.extend({
 
   // Map "URL paths" to "router functions"
   routes: {
-      "": "home"
+      "": "home",
+      ":id" : "list"
   },
 
   // When an instance of an AppRouter is declared, create a Header view
@@ -25,6 +26,17 @@ uPlaylist.AppRouter = Backbone.Router.extend({
     //making the view with the model and collection
     this.homeView = new uPlaylist.Home({model : detailsModel, collection: this.movieCollection});
     $('#content').html(this.homeView.render().el);
+  },
+  list: function(){
+    $('body').switchClass("loaded", "loading");
+    $('input').css("z-index", "0");
+    setTimeout(function(){
+
+      // do some data parsing here, maybe setup the list view and get that to
+      //  do the computation
+      $('body').switchClass("loading", "loaded");
+      $('input').css("z-index", "0");
+    }, 1000);
   }
 });
 

@@ -29,29 +29,20 @@ uPlaylist.Home = Backbone.View.extend({
       return false;
     } else {
       uPlaylist.utils.removeValidationError("link");
-
-      //starts the loading animation
-      $('body').switchClass("loaded", "loading");
-      $('input').css("z-index", "0");
       this.savePlaylist();
-      //waits for the animation on the loading to finish and then continues
-      // setTimeout(function(){
-      //     self.parseData();
-      // }, 1000);
     }
   },
 
   savePlaylist: function() {
-    console.log("about to save");
     this.collection.create( this.model, {
       wait: true,
       success: function(model, response) {
         // later, we'll navigate to the browse view upon success
-        // movieApp.app.navigate('#'+model.id, {replace:true, trigger:true});
-        console.log("something happened here GOOD");
+        console.log(model);
+        uPlaylist.app.navigate('#'+model.attributes.playlist_id, {replace:true, trigger:true});
       },
       error: function(model, response) {
-        console.log("something happened here");
+        alert("playlist could not persist");
       }
     });
   },

@@ -9,6 +9,7 @@ uPlaylist.Playlist = Backbone.Model.extend({
     name: "",
     num_songs: 0.0,
     link : "",
+    playlist_id: ""
   },
 
   validateFunction: function(){
@@ -21,7 +22,7 @@ uPlaylist.Playlist = Backbone.Model.extend({
       return {isValid: false, message: 'Link must be a youtube link with a valid playlist ID'};
     } else {
       //setting the id of the playlist to be the id of the youtube playlist
-      this.id = this.attributes.link.split("list=")[1].split("&")[0];
+      this.attributes.playlist_id = this.attributes.link.split("list=")[1].split("&")[0];
       return {isValid: true};
     }
   }
