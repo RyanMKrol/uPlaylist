@@ -12,7 +12,8 @@ uPlaylist.Song = Backbone.Model.extend({
 
     defaults: {
       title     : "",
-      runtime   : 0.0,
+      minutes   : 0,
+      seconds   : 0,
       thumbnail : "",
       position  : 0.0,
       song_id   : ""
