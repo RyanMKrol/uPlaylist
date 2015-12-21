@@ -8,6 +8,8 @@ uPlaylist.api_URL_base = 'https://www.googleapis.com/youtube/v3/playlistItems?pa
 
 uPlaylist.Home = Backbone.View.extend({
 
+  template: _.template("../../tpl/Home.html"),
+
   events: {
       "submit form": "submit"
   },
@@ -21,7 +23,7 @@ uPlaylist.Home = Backbone.View.extend({
 
     this.model.set({link: event.target[0].value});
 
-    var check = this.model.validate();
+    var check = this.model.validateFunction();
     if(!check.isValid){
       uPlaylist.utils.addValidationError("link", check.message);
       return false;
@@ -40,35 +42,20 @@ uPlaylist.Home = Backbone.View.extend({
   },
 
   savePlaylist: function() {
-    var newMovie = this.model.isNew();
-    console.log("about to call");
-    // this.collection.create( this.model, {
-    //   wait: true,
-    //   success: function(model, response) {
-    //     // later, we'll navigate to the browse view upon success
-    //     console.log("doing something");
-    //     movieApp.app.navigate('#'+ model.id, {replace:true, trigger:true});
-    //     console.log("we've moved");
-    //   },
-    //   error: function(model, response) {
-    //     console.log("you messed up son");
-    //   }
-    // });
-    this.model.save();
-    this.model.save( null, {
+    console.log("about to save");
+    this.collection.create( this.model, {
       wait: true,
       success: function(model, response) {
         // later, we'll navigate to the browse view upon success
-        console.log("doing something");
-        movieApp.app.navigate('#'+ model.id, {replace:true, trigger:true});
-        console.log("we've moved");
+        // movieApp.app.navigate('#'+model.id, {replace:true, trigger:true});
+        console.log("something happened here GOOD");
       },
       error: function(model, response) {
-        console.log("you messed up son");
+        console.log("something happened here");
       }
     });
-
   },
+
   parseData: function(){
     //building up the URL to use with the API
     var request_URL = uPlaylist.api_URL_base.concat(new String(this.model.id)).concat('&key=').concat(uPlaylist.api_key);
