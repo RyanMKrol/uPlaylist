@@ -52,7 +52,7 @@ uPlaylist.AppRouter = Backbone.Router.extend({
       }, 1000);
     } else {
       setTimeout(function(){
-        playlistModel.parseData();
+        playlistModel.getData();
       }, 1000);
     }
   }
