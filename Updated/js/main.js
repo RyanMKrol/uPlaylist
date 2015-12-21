@@ -15,28 +15,50 @@ uPlaylist.AppRouter = Backbone.Router.extend({
 
   // When an instance of an AppRouter is declared, create a Header view
   initialize: function() {
+    this.movieCollection = new uPlaylist.Playlists();
+    this.movieCollection.fetch();
   },
 
   home: function() {
-    var detailsModel = new uPlaylist.Playlist();
+    console.log("back home");
+    var playlistModel = new uPlaylist.Playlist();
     //makes the new collection if one doesn't exist
     if(!this.movieCollection){
       this.movieCollection = new uPlaylist.Playlists();
     }
     //making the view with the model and collection
-    this.homeView = new uPlaylist.Home({model : detailsModel, collection: this.movieCollection});
+    this.homeView = new uPlaylist.Home({model : playlistModel, collection: this.movieCollection});
     $('#content').html(this.homeView.render().el);
   },
-  list: function(){
+  list: function(id){
+    //start the loading animation
     $('body').switchClass("loaded", "loading");
     $('input').css("z-index", "0");
-    setTimeout(function(){
 
-      // do some data parsing here, maybe setup the list view and get that to
-      //  do the computation
-      $('body').switchClass("loading", "loaded");
-      $('input').css("z-index", "0");
-    }, 1000);
+    var playlistModel;
+    if(!this.movieCollection){
+      this.movieCollection = new uPlaylist.Playlists();
+    }
+
+    //get the playlist we want from the collection
+    playlistModel = this.movieCollection.get(id);
+
+    //if it does not exist, go back home
+    if(playlistModel == undefined){
+      //timeout is for the loading animation to finish
+      setTimeout(function(){
+        alert("sorry this playlist does not exist\nbeing taken back home");
+        uPlaylist.app.navigate('#', {replace:true, trigger:true});
+      }, 1000);
+    } else {
+      setTimeout(function(){
+        $('body').switchClass("loading", "loaded");
+        $('input').css("z-index", "0");
+
+        //parsing
+
+      }, 1000);
+    }
   }
 });
 

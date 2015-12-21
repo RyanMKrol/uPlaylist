@@ -38,8 +38,7 @@ uPlaylist.Home = Backbone.View.extend({
       wait: true,
       success: function(model, response) {
         // later, we'll navigate to the browse view upon success
-        console.log(model);
-        uPlaylist.app.navigate('#'+model.attributes.playlist_id, {replace:true, trigger:true});
+        uPlaylist.app.navigate('#'+model.id, {replace:true, trigger:true});
       },
       error: function(model, response) {
         alert("playlist could not persist");
