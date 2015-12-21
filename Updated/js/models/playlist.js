@@ -44,9 +44,6 @@ uPlaylist.Playlist = Backbone.Model.extend({
 
   apiCall: function(request, cumulative_data){
     var self = this;
-    console.log(cumulative_data);
-    console.log(request);
-    console.log(self.next_page_token);
     if(self.next_page_token != undefined){
       //if this is the first page token, then just concatenate it, otherwise replace it
       if(request.search('&pageToken=') == (-1)){
@@ -55,7 +52,6 @@ uPlaylist.Playlist = Backbone.Model.extend({
         request = request.split('&pageToken=')[0].concat('&pageToken=' + self.next_page_token);
       }
     }
-    console.log(request);
     $.ajax({
       async    : true,
       url      : request,
@@ -87,6 +83,8 @@ uPlaylist.Playlist = Backbone.Model.extend({
     var song;
     var position = 0;
     var song_array = new Array();
+    var api_song_data = new Array();
+    var id_array = "";
     $.each(data, function (key, val){
       if((val.snippet.title != "Private video") && (val.snippet.title != "Deleted video")){
         song = new uPlaylist.Song();
@@ -95,15 +93,64 @@ uPlaylist.Playlist = Backbone.Model.extend({
         song.attributes.thumbnail = val.snippet.thumbnails.default.url;
         song.attributes.song_id = val.snippet.resourceId.videoId;
         song.attributes.position = position++;
+        id_array += val.snippet.resourceId.videoId + '%2C+';
+        if(position % 49 == 0){
+          console.log("id array is: ");
+          console.log(id_array);
+          api_song_data.push(id_array);
+          id_array = "";
+        }
         song_array.push(song);
       }
     });
-    this.save({songs: song_array}, {
-      success: function(){
-        console.log("songs have been persisted");
-      },
-      error: function(){
-        alert("something wrong with your session storage");
+    if(id_array != "")
+      api_song_data.push(id_array);
+    this.getRunTimes(song_array, api_song_data.reverse(), 0);
+  },
+
+  getRunTimes: function(song_array, id_array, offset){
+
+    if(id_array.length == 0){
+      this.save({songs: song_array}, {
+        success: function(){
+          console.log("songs have been persisted");
+        },
+        error: function(){
+          alert("something wrong with your session storage");
+        }
+      });
+      return;
+    }
+
+    var self = this;
+    var baseURL = 'https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=';
+    var requestURL = baseURL.concat(id_array.pop()).concat('&key=').concat(uPlaylist.api_key);
+    var i = 49 * offset;
+
+    $.ajax({
+      async    : true,
+      url      : requestURL,
+      type     : 'GET',
+      success  : function(data) {
+        // gets the time from the youtube api, splits it all up according to the format, and then converts the minutes
+        // to seconds, adds that to the seconds, and then stores it in sessionStorage
+
+        $.each(data.items, function(key, val){
+            var seconds      = 0;
+            var minutes      = 0;
+            var timeReturned = val.contentDetails.duration;
+            if(timeReturned.search('M') != -1){
+              minutes        = (parseInt(timeReturned.split("PT")[1].split('M')[0])*60);
+              if(timeReturned.search('S') != -1){
+                seconds      = parseInt(timeReturned.split("M")[1].split('S')[0]);
+              }
+            } else {
+              seconds        = parseInt(timeReturned.split("PT")[1].split('S')[0]);
+            }
+            var time         = minutes + seconds;
+            song_array[i++].attributes.runtime = time;
+        });
+        self.getRunTimes(song_array, id_array, offset+1);
       }
     });
   }
