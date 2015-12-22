@@ -164,23 +164,29 @@ uPlaylist.Playlist = Backbone.Model.extend({
 
             //if it is a minute or longer, use this, otherwise use the other method
             if(timeReturned.search('M') != -1){
-              minutes        = (parseInt(timeReturned.split("PT")[1].split('M')[0]));
+              minutes        = timeReturned.split("PT")[1].split('M')[0];
               if(timeReturned.search('S') != -1){
                 seconds      = parseInt(timeReturned.split("M")[1].split('S')[0]);
               }
             } else {
               seconds        = parseInt(timeReturned.split("PT")[1].split('S')[0]);
             }
+
+            //this can break the parsing if not caught here
             if(seconds == undefined)
               seconds = 0;
-            if(minutes == undefined)
-              minutes = 0;
+
+            //formats the seconds to always have at least 2 digits
+            if(seconds < 10)
+              seconds = '0' + seconds;
+
             //set the song attributes
             song_array[i].set('minutes', minutes);
             song_array[i++].set('seconds', seconds);
         });
-        self.getRunTimes(song_array, id_array, offset+1);
+
         //call this function again with the offset to set the times of the later videos
+        self.getRunTimes(song_array, id_array, offset+1);
       }
     });
   }
