@@ -31,28 +31,45 @@ uPlaylist.AppRouter = Backbone.Router.extend({
     $('#content').html(this.homeView.render().el);
   },
   list: function(id){
+
+    var self = this;
+
     //start the loading animation
     $('body').switchClass("loaded", "loading");
     $('input').css("z-index", "0");
 
     var playlistModel;
-    if(!this.movieCollection){
-      this.movieCollection = new uPlaylist.Playlists();
+    if(!self.movieCollection){
+      self.movieCollection = new uPlaylist.Playlists();
     }
 
     //get the playlist we want from the collection
-    playlistModel = this.movieCollection.get(id);
+    playlistModel = self.movieCollection.get(id);
 
     //if it does not exist, go back home
     if(playlistModel == undefined){
       //timeout is for the loading animation to finish
       setTimeout(function(){
-        alert("sorry this playlist does not exist\nbeing taken back home");
+        alert("Sorry you have not used this playlist before");
         uPlaylist.app.navigate('#', {replace:true, trigger:true});
       }, 1000);
+
     } else {
       setTimeout(function(){
+
+        //get the data associated with the id in the URL
         playlistModel.getData();
+
+        //i use an event handler here to know when to continue
+        $(document).on("finished_with_data", function(){
+
+          //make the list view, then render it
+          if(!self.listView){
+            self.listView = new uPlaylist.ListView({model : playlistModel});
+          }
+          $('#content').html(self.listView.render().el);
+        });
+
       }, 1000);
     }
   }
@@ -61,7 +78,7 @@ uPlaylist.AppRouter = Backbone.Router.extend({
 // Load HTML templates for Home, Header, About views, and when
 // template loading is complete, instantiate a Backbone router
 // with history.
-uPlaylist.utils.loadTemplates(['Home'], function() {
+uPlaylist.utils.loadTemplates(['Home', 'ListItem', 'ListView'], function() {
   uPlaylist.app = new uPlaylist.AppRouter();
   Backbone.history.start();
 });
