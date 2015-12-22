@@ -67,18 +67,13 @@ uPlaylist.Playlist = Backbone.Model.extend({
           //flattens all of the data gathered into one array
           var all_data = [].concat.apply([], cumulative_data);
           self.parseData(all_data);
-          //parse all the data gathered.
-          $('body').switchClass("loading", "loaded");
-          $('input').css("z-index", "0");
         }
       },
       error : function(){
         //send them back to the home screen
         //************************** POTENTIALLY DELETE THE MODEL HERE **************************
         alert("Apologies, your playlist does not appear to exist");
-        uPlaylist.app.navigate('#', {replace:true, trigger:true});
-        $('body').switchClass("loading", "loaded");
-        $('input').css("z-index", "0");
+        $(document).trigger("error_with_data");
       }
     });
   },
@@ -135,7 +130,9 @@ uPlaylist.Playlist = Backbone.Model.extend({
           });
         },
         error: function(){
-          alert("something wrong with your session storage");
+          $.event.trigger({
+          	type: "error_with_data"
+          });
         }
       });
       return;

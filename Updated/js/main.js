@@ -15,19 +15,19 @@ uPlaylist.AppRouter = Backbone.Router.extend({
 
   // When an instance of an AppRouter is declared, create a Header view
   initialize: function() {
-    this.movieCollection = new uPlaylist.Playlists();
-    this.movieCollection.fetch();
+    this.playlistCollection = new uPlaylist.Playlists();
+    this.playlistCollection.fetch();
   },
 
   home: function() {
     console.log("back home");
     var playlistModel = new uPlaylist.Playlist();
     //makes the new collection if one doesn't exist
-    if(!this.movieCollection){
-      this.movieCollection = new uPlaylist.Playlists();
+    if(!this.playlistCollection){
+      this.playlistCollection = new uPlaylist.Playlists();
     }
     //making the view with the model and collection
-    this.homeView = new uPlaylist.Home({model : playlistModel, collection: this.movieCollection});
+    this.homeView = new uPlaylist.Home({model : playlistModel, collection: this.playlistCollection});
     $('#content').html(this.homeView.render().el);
   },
   list: function(id){
@@ -39,12 +39,12 @@ uPlaylist.AppRouter = Backbone.Router.extend({
     $('input').css("z-index", "0");
 
     var playlistModel;
-    if(!self.movieCollection){
-      self.movieCollection = new uPlaylist.Playlists();
+    if(!self.playlistCollection){
+      self.playlistCollection = new uPlaylist.Playlists();
     }
 
     //get the playlist we want from the collection
-    playlistModel = self.movieCollection.get(id);
+    playlistModel = self.playlistCollection.get(id);
 
     //if it does not exist, go back home
     if(playlistModel == undefined){
@@ -57,19 +57,36 @@ uPlaylist.AppRouter = Backbone.Router.extend({
     } else {
       setTimeout(function(){
 
-        //get the data associated with the id in the URL
-        playlistModel.getData();
+        //******************CURRENT PROBLEM WITH THIS METHOD******************
+        //if we only ever check to see if the length equal to 0 to get the data
+        //then if the user loads their playlist and then adds a song, and then
+        //loads it again, we won't get that new song. Need to think of a way around
+        //this. maybe do it in the background
 
         //i use an event handler here to know when to continue
         $(document).on("finished_with_data", function(){
-
           //make the list view, then render it
           if(!self.listView){
             self.listView = new uPlaylist.ListView({model : playlistModel});
           }
           $('#content').html(self.listView.render().el);
+          $('body').switchClass("loading", "loaded");
+          $('input').css("z-index", "0");
         });
 
+        $(document).on("error_with_data", function(){
+          alert("There was a problem somewhere, please try again.");
+          uPlaylist.app.navigate('#', {replace:true, trigger:true});
+          $('body').switchClass("loading", "loaded");
+          $('input').css("z-index", "0");
+        });
+
+        //check to see if the songs have been gotten previously
+        if(playlistModel.attributes.songs.length == 0){
+          playlistModel.getData();
+        } else {
+          $(document).trigger("finished_with_data");
+        }
       }, 1000);
     }
   }
