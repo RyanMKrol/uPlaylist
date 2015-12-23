@@ -4,6 +4,10 @@
 // declare uPlaylist-app namespace if it doesn't already exist
 var uPlaylist =  uPlaylist || {};
 
+$("#transition_listener").one("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function(){
+  $(document).trigger("transition_finish");
+});
+
 // Define Backbone router
 uPlaylist.AppRouter = Backbone.Router.extend({
 
@@ -38,6 +42,7 @@ uPlaylist.AppRouter = Backbone.Router.extend({
     $('body').switchClass("loaded", "loading");
     $('input').css("z-index", "0");
 
+    //get the model and playlist
     var playlistModel;
     if(!self.playlistCollection){
       self.playlistCollection = new uPlaylist.Playlists();
@@ -46,16 +51,11 @@ uPlaylist.AppRouter = Backbone.Router.extend({
     //get the playlist we want from the collection
     playlistModel = self.playlistCollection.get(id);
 
-    //if it does not exist, go back home
-    if(playlistModel == undefined){
-      //timeout is for the loading animation to finish
-      setTimeout(function(){
+    $(document).on("transition_finish", function(){
+      if(playlistModel == undefined){
         alert("Sorry you have not used this playlist before");
         uPlaylist.app.navigate('#', {replace:true, trigger:true});
-      }, 1000);
-
-    } else {
-      setTimeout(function(){
+      } else {
         //i use an event handler here to know when to continue
         $(document).on("finished_with_data", function(){
 
@@ -86,19 +86,17 @@ uPlaylist.AppRouter = Backbone.Router.extend({
           //get the data for the playlist
           playlistModel.getData();
         } else {
-          console.log("not changing now");
+
           //check to see if we need to update the playlist the next time
           playlistModel.checkIfUpdateNeeded();
           $(document).trigger("finished_with_data");
         }
-      }, 1000);
-    }
+      }
+    });
   }
 });
 
-// Load HTML templates for Home, Header, About views, and when
-// template loading is complete, instantiate a Backbone router
-// with history.
+//load the templates
 uPlaylist.utils.loadTemplates(['Home', 'ListItem', 'ListView'], function() {
   uPlaylist.app = new uPlaylist.AppRouter();
   Backbone.history.start();
