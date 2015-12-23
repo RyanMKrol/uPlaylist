@@ -105,7 +105,6 @@ html, body{
 
 input{
     position:absolute;
-    z-index: 1005;
 }
 
 

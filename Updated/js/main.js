@@ -4,10 +4,6 @@
 // declare uPlaylist-app namespace if it doesn't already exist
 var uPlaylist =  uPlaylist || {};
 
-$("#transition_listener").one("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function(){
-  $(document).trigger("transition_finish");
-});
-
 // Define Backbone router
 uPlaylist.AppRouter = Backbone.Router.extend({
 
@@ -24,12 +20,15 @@ uPlaylist.AppRouter = Backbone.Router.extend({
   },
 
   home: function() {
-    console.log("back home");
+
+    //make a brand new playlist object
     var playlistModel = new uPlaylist.Playlist();
+
     //makes the new collection if one doesn't exist
     if(!this.playlistCollection){
       this.playlistCollection = new uPlaylist.Playlists();
     }
+
     //making the view with the model and collection
     this.homeView = new uPlaylist.Home({model : playlistModel, collection: this.playlistCollection});
     $('#content').html(this.homeView.render().el);
@@ -40,7 +39,7 @@ uPlaylist.AppRouter = Backbone.Router.extend({
 
     //start the loading animation
     $('body').switchClass("loaded", "loading");
-    $('input').css("z-index", "0");
+    $('#loader-wrapper').css('pointer-events', 'all');
 
     //get the model and playlist
     var playlistModel;
@@ -51,11 +50,16 @@ uPlaylist.AppRouter = Backbone.Router.extend({
     //get the playlist we want from the collection
     playlistModel = self.playlistCollection.get(id);
 
-    $(document).on("transition_finish", function(){
+    $(document).one("transition_finish", function(){
+
       if(playlistModel == undefined){
+        //alert the user of the problem
         alert("Sorry you have not used this playlist before");
-        uPlaylist.app.navigate('#', {replace:true, trigger:true});
+
+        //handle the 'problem' event
+        $(document).trigger("error_with_data");
       } else {
+
         //i use an event handler here to know when to continue
         $(document).on("finished_with_data", function(){
 
@@ -67,17 +71,7 @@ uPlaylist.AppRouter = Backbone.Router.extend({
 
           //removes the loading animation
           $('body').switchClass("loading", "loaded");
-          $('input').css("z-index", "0");
-        });
-
-        //triggered when the system fails to get playlist data
-        $(document).on("error_with_data", function(){
-          alert("There was a problem somewhere, please try again.");
-
-          //goes back to the home screen and removes the loading animation
-          uPlaylist.app.navigate('#', {replace:true, trigger:true});
-          $('body').switchClass("loading", "loaded");
-          $('input').css("z-index", "0");
+          $('#loader-wrapper').css('pointer-events', 'none');
         });
 
         //check to see if the songs have been gotten previously
@@ -86,10 +80,9 @@ uPlaylist.AppRouter = Backbone.Router.extend({
           //get the data for the playlist
           playlistModel.getData();
         } else {
-
+          $(document).trigger("finished_with_data");
           //check to see if we need to update the playlist the next time
           playlistModel.checkIfUpdateNeeded();
-          $(document).trigger("finished_with_data");
         }
       }
     });
@@ -100,4 +93,25 @@ uPlaylist.AppRouter = Backbone.Router.extend({
 uPlaylist.utils.loadTemplates(['Home', 'ListItem', 'ListView'], function() {
   uPlaylist.app = new uPlaylist.AppRouter();
   Backbone.history.start();
+});
+
+/*EVENT HANDLERS*/
+
+//used to listen for the end of the loading animation
+$("#transition_listener").on("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function(){
+
+  //this will call twice when the loading div closes and opens, this ensures that i
+  // only trigger the event once
+  if($('#loader-wrapper').css('pointer-events') == 'all'){
+    $(document).trigger("transition_finish");
+  }
+});
+
+//triggered when the system fails to get playlist data
+$(document).on("error_with_data", function(){
+
+  //go back to the home page and remove the loading div
+  uPlaylist.app.navigate('#', {replace:true, trigger:true});
+  $('body').switchClass("loading", "loaded");
+  $('#loader-wrapper').css('pointer-events', 'none');
 });

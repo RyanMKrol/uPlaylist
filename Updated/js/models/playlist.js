@@ -185,9 +185,9 @@ uPlaylist.Playlist = Backbone.Model.extend({
           });
         },
         error: function(){
-          $.event.trigger({
-          	type: "error_with_data"
-          });
+          alert("Playlist could not be persisted in local storage, perhaps you have it turned off?");
+          //tells the client's we're done, and there was a problem
+          $(document).trigger("error_with_data");
         }
       });
       return;
