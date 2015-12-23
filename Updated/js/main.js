@@ -56,26 +56,25 @@ uPlaylist.AppRouter = Backbone.Router.extend({
 
     } else {
       setTimeout(function(){
-
-        //******************CURRENT PROBLEM WITH THIS METHOD******************
-        //if we only ever check to see if the length equal to 0 to get the data
-        //then if the user loads their playlist and then adds a song, and then
-        //loads it again, we won't get that new song. Need to think of a way around
-        //this. maybe do it in the background
-
         //i use an event handler here to know when to continue
         $(document).on("finished_with_data", function(){
+
           //make the list view, then render it
           if(!self.listView){
             self.listView = new uPlaylist.ListView({model : playlistModel});
           }
           $('#content').html(self.listView.render().el);
+
+          //removes the loading animation
           $('body').switchClass("loading", "loaded");
           $('input').css("z-index", "0");
         });
 
+        //triggered when the system fails to get playlist data
         $(document).on("error_with_data", function(){
           alert("There was a problem somewhere, please try again.");
+
+          //goes back to the home screen and removes the loading animation
           uPlaylist.app.navigate('#', {replace:true, trigger:true});
           $('body').switchClass("loading", "loaded");
           $('input').css("z-index", "0");
@@ -83,11 +82,12 @@ uPlaylist.AppRouter = Backbone.Router.extend({
 
         //check to see if the songs have been gotten previously
         if(playlistModel.attributes.songs.length == 0 || playlistModel.attributes.needs_updating == 1){
-          console.log(playlistModel.attributes.songs.length);
-          console.log(playlistModel.attributes.needs_updating);
+
+          //get the data for the playlist
           playlistModel.getData();
         } else {
-          console.log("don't need to update the playlist just now");
+          console.log("not changing now");
+          //check to see if we need to update the playlist the next time
           playlistModel.checkIfUpdateNeeded();
           $(document).trigger("finished_with_data");
         }

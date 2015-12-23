@@ -21,6 +21,7 @@ uPlaylist.Playlist = Backbone.Model.extend({
     md5_hash: ""
   },
 
+  //some basic checking to see if the provided link is valid
   validateFunction: function(){
     var input = this.attributes.link;
     var valid_youtube_link = input.search('www.youtube.com/');
@@ -35,6 +36,8 @@ uPlaylist.Playlist = Backbone.Model.extend({
       return {isValid: true};
     }
   },
+
+  //starts the process for getting data from the API
   getData: function(){
 
     //request is built here, api request has to be in a separate function because
@@ -43,6 +46,7 @@ uPlaylist.Playlist = Backbone.Model.extend({
     this.apiCall(request, []);
   },
 
+  //the function builds up the data recursively until there are no pages left
   apiCall: function(request, cumulative_data){
     var self = this;
 
@@ -61,16 +65,21 @@ uPlaylist.Playlist = Backbone.Model.extend({
       url      : request,
       type     : 'GET',
       success  : function(data) {
+
+        //build up the data store and see if there is another page to get
         cumulative_data.push(data.items);
         self.next_page_token = data.nextPageToken;
 
         if(self.next_page_token != undefined){
           self.apiCall(request, cumulative_data);
         } else {
+
           //flattens all of the data gathered into one array
           var all_data = [].concat.apply([], cumulative_data);
           self.attributes.total_songs = data.pageInfo.totalResults;
           self.attributes.needs_updating = 0;
+
+          //parse the data and actually update the model
           self.parseData(all_data, false);
         }
       },
@@ -93,27 +102,36 @@ uPlaylist.Playlist = Backbone.Model.extend({
     var id_string = "";
     var md5_array = new Array();
 
+    //go through all of the data
     $.each(data, function (key, val){
       //need to see if the video has been made private, or removed
       if((val.snippet.title != "Private video") && (val.snippet.title != "Deleted video")){
-        song = new uPlaylist.Song();
+        if(!is_check){
+          song = new uPlaylist.Song();
 
-        //setting the model attributes
-        song.set('title', val.snippet.title);
-        song.set('thumbnail', val.snippet.thumbnails.default.url);
-        song.set('song_id', val.snippet.resourceId.videoId);
-        song.set('position', position++);
+          //setting the model attributes
+          song.set('title', val.snippet.title);
+          song.set('thumbnail', val.snippet.thumbnails.default.url);
+          song.set('song_id', val.snippet.resourceId.videoId);
+          song.set('position', position++);
 
-        //used to get the runtimes from YouTube's API
-        id_string += val.snippet.resourceId.videoId + '%2C+';
-        md5_array.push(val.snippet.resourceId.videoId);
+          //used to get the runtimes from YouTube's API
+          id_string += val.snippet.resourceId.videoId + '%2C+';
 
-        //api can only take 50 things at a time, so flush the data on the 50th
-        if(position % 49 == 0){
-          api_song_data.push(id_string);
-          id_string = "";
+          //pushing each id to the md5 array for hashing laterhttps://www.youtube.com/playlist?list=PLMNUXrGDzNpA_HRobzHdGpOfSb4O2OUlB
+          md5_array.push(val.snippet.resourceId.videoId);
+
+          //api can only take 50 things at a time, so flush the data on the 50th
+          if(position % 49 == 0){
+            api_song_data.push(id_string);
+            id_string = "";
+          }
+
+          song_array.push(song);
         }
-        song_array.push(song);
+          
+        //pushing each id to the md5 array for hashing laterhttps://www.youtube.com/playlist?list=PLMNUXrGDzNpA_HRobzHdGpOfSb4O2OUlB
+        md5_array.push(val.snippet.resourceId.videoId);
       }
     });
 
@@ -124,7 +142,8 @@ uPlaylist.Playlist = Backbone.Model.extend({
     //i need to sort the ids to account for any change in ordering of songs The
     // user might do on youtube.
     md5_array.sort();
-    console.log(md5_array);
+
+    //turn this array into a string
     var md5_string = md5(md5_array.join());
 
     if(!is_check){
@@ -140,7 +159,6 @@ uPlaylist.Playlist = Backbone.Model.extend({
   //used to get the runtimes of each video in the playlist
   getRunTimes: function(song_array, id_array, offset){
 
-    console.log(this.attributes.needs_updating);
     //this is the last stage in the information gathering, so we persist the model here
     if(id_array.length == 0){
       this.save({songs: song_array}, {
@@ -249,13 +267,10 @@ uPlaylist.Playlist = Backbone.Model.extend({
           var all_data = [].concat.apply([], cumulative_data);
 
           var check = self.parseData(all_data, true);
-          console.log(check);
+
           //save the model to tell the service that this needs updating next time
           self.save({needs_updating: check[0], md5_hash: check[1]}, {
             success: function(){
-              console.log("value of need_updating is now: ");
-              console.log(self.attributes.needs_updating);
-              console.log(self.attributes.md5_hash);
               console.log("model persisted");
             }
           });
