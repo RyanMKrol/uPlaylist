@@ -281,6 +281,7 @@ uPlaylist.Playlist = Backbone.Model.extend({
           //flattens all of the data gathered into one array
           var all_data = [].concat.apply([], cumulative_data);
 
+          //check gets the needs_updating bit, and the new hash that will be used
           var check = self.parseData(all_data, true);
 
           //save the model to tell the service that this needs updating next time

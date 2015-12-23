@@ -1,17 +1,16 @@
-// catch simple errors
 "use strict";
 
-// declare uPlaylist-app namespace if it doesn't already exist
 var uPlaylist =  uPlaylist || {};
 
-//When you create a Movies collection, you can populate it with saved data from
-// localStorage using the collection fetch() method.
-
 uPlaylist.Playlists = Backbone.Collection.extend({
-  // identify collection’s model
+
+  //model that the collection uses
   model: uPlaylist.Playlist,
-  // save movie models in localStorage under "uPlaylist" namespace
+
+  //local storage used by the collection
   localStorage: new Backbone.LocalStorage('uPlaylist'),
+
+  //when created, sync the model with the storage mechanism
   initialize: function(){
     this.fetch();
   }

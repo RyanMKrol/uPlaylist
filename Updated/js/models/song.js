@@ -4,12 +4,9 @@ var uPlaylist =  uPlaylist || {};
 
 uPlaylist.Song = Backbone.Model.extend({
 
-    idAttribute: "_id",	// to match localStorage, which uses _id rather than id
+    idAttribute: "_id",
 
-    initialize: function() {
-
-    },
-
+    //schema for a song model
     defaults: {
       title     : "",
       minutes   : 0,

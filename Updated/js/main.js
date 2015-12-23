@@ -53,6 +53,7 @@ uPlaylist.AppRouter = Backbone.Router.extend({
     $(document).one("transition_finish", function(){
 
       if(playlistModel == undefined){
+
         //alert the user of the problem
         alert("Sorry you have not used this playlist before");
 
@@ -60,7 +61,7 @@ uPlaylist.AppRouter = Backbone.Router.extend({
         $(document).trigger("error_with_data");
       } else {
 
-        //i use an event handler here to know when to continue
+        //this has to be inside in order to use the playlistModel created earlier
         $(document).on("finished_with_data", function(){
 
           //make the list view, then render it
@@ -80,6 +81,8 @@ uPlaylist.AppRouter = Backbone.Router.extend({
           //get the data for the playlist
           playlistModel.getData();
         } else {
+
+          //the check is done asynchronously in the background, so we can finish here
           $(document).trigger("finished_with_data");
           //check to see if we need to update the playlist the next time
           playlistModel.checkIfUpdateNeeded();
@@ -95,7 +98,7 @@ uPlaylist.utils.loadTemplates(['Home', 'ListItem', 'ListView'], function() {
   Backbone.history.start();
 });
 
-/*EVENT HANDLERS*/
+/*  EVENT HANDLERS  */
 
 //used to listen for the end of the loading animation
 $("#transition_listener").on("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function(){

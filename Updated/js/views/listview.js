@@ -3,7 +3,10 @@
 var uPlaylist =  uPlaylist || {};
 uPlaylist.ListView = Backbone.View.extend({
 
+  //template associated with the view
   template: _.template("../../tpl/ListView.html"),
+
+  //renders the view
   render: function () {
 
     //rendering this view

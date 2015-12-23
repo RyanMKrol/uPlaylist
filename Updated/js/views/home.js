@@ -12,14 +12,20 @@ uPlaylist.Home = Backbone.View.extend({
 
   submit: function(event) {
 
+    //stop the page from refreshing/redirecting
     event.preventDefault();
 
+    //get the value of what was input
     var input = event.target[0].value;
     var self = this;
 
+    //update the model to reflect the input
     this.model.set({link: event.target[0].value});
 
+    //validate the input
     var check = this.model.validateFunction();
+
+    //check to see if the input is valid
     if(!check.isValid){
       uPlaylist.utils.addValidationError("link", check.message);
       return false;
@@ -29,6 +35,7 @@ uPlaylist.Home = Backbone.View.extend({
     }
   },
 
+  //persist the model with the storage mechanism
   savePlaylist: function() {
     this.collection.create( this.model, {
       wait: true,
@@ -42,6 +49,7 @@ uPlaylist.Home = Backbone.View.extend({
     });
   },
 
+  //render the view
   render: function () {
     this.$el.html(this.template());  // create DOM content for Home
     return this;    // support chaining
