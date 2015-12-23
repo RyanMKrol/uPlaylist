@@ -15,7 +15,9 @@ uPlaylist.Playlist = Backbone.Model.extend({
     link : "",
     playlist_id: "",
     next_page_token: undefined,
-    songs: new Array()
+    songs: new Array(),
+    total_songs: 0,
+    needs_updating: 0
   },
 
   validateFunction: function(){
@@ -66,6 +68,8 @@ uPlaylist.Playlist = Backbone.Model.extend({
         } else {
           //flattens all of the data gathered into one array
           var all_data = [].concat.apply([], cumulative_data);
+          self.attributes.total_songs = data.pageInfo.totalResults;
+          self.attributes.needs_updating = 0;
           self.parseData(all_data);
         }
       },
@@ -184,6 +188,26 @@ uPlaylist.Playlist = Backbone.Model.extend({
 
         //call this function again with the offset to set the times of the later videos
         self.getRunTimes(song_array, id_array, offset+1);
+      }
+    });
+  },
+  checkIfUpdateNeeded: function(){
+    var request = uPlaylist.api_URL_base.concat(this.attributes.playlist_id).concat('&key=').concat(uPlaylist.api_key);
+    var self = this;
+    $.ajax({
+      async    : true,
+      url      : request,
+      type     : 'GET',
+      success  : function(data) {
+        if(self.attributes.total_songs != data.pageInfo.totalResults){
+          self.save({needs_updating: 1}, {
+            success: function(){
+              $(document).trigger("finished_with_data");
+            }
+          });
+        } else {
+          $(document).trigger("finished_with_data");
+        }
       }
     });
   }
