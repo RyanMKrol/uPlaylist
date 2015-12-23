@@ -17,7 +17,8 @@ uPlaylist.Playlist = Backbone.Model.extend({
     next_page_token: undefined,
     songs: new Array(),
     total_songs: 0,
-    needs_updating: 0
+    needs_updating: 0,
+    md5_hash: ""
   },
 
   validateFunction: function(){
@@ -70,7 +71,7 @@ uPlaylist.Playlist = Backbone.Model.extend({
           var all_data = [].concat.apply([], cumulative_data);
           self.attributes.total_songs = data.pageInfo.totalResults;
           self.attributes.needs_updating = 0;
-          self.parseData(all_data);
+          self.parseData(all_data, false);
         }
       },
       error : function(){
@@ -81,7 +82,7 @@ uPlaylist.Playlist = Backbone.Model.extend({
       }
     });
   },
-  parseData: function(data){
+  parseData: function(data, is_check){
 
     //self used to avoid code hoisting
     var self = this;
@@ -90,6 +91,7 @@ uPlaylist.Playlist = Backbone.Model.extend({
     var song_array = new Array();
     var api_song_data = new Array();
     var id_string = "";
+    var md5_array = new Array();
 
     $.each(data, function (key, val){
       //need to see if the video has been made private, or removed
@@ -104,6 +106,7 @@ uPlaylist.Playlist = Backbone.Model.extend({
 
         //used to get the runtimes from YouTube's API
         id_string += val.snippet.resourceId.videoId + '%2C+';
+        md5_array.push(val.snippet.resourceId.videoId);
 
         //api can only take 50 things at a time, so flush the data on the 50th
         if(position % 49 == 0){
@@ -118,13 +121,26 @@ uPlaylist.Playlist = Backbone.Model.extend({
     if(id_string != "")
       api_song_data.push(id_string);
 
-    //get the runtimes which requires it's own API request. reverse, so i can use pop
-    this.getRunTimes(song_array, api_song_data.reverse(), 0);
+    //i need to sort the ids to account for any change in ordering of songs The
+    // user might do on youtube.
+    md5_array.sort();
+    console.log(md5_array);
+    var md5_string = md5(md5_array.join());
+
+    if(!is_check){
+      self.md5_hash = md5(md5_string);
+      //get the runtimes which requires it's own API request. reverse, so i can use pop
+      this.getRunTimes(song_array, api_song_data.reverse(), 0);
+    } else {
+      var is_same_hash = self.attributes.md5_hash == md5_string ? 0 : 1;
+      return [is_same_hash, md5_string];
+    }
   },
 
   //used to get the runtimes of each video in the playlist
   getRunTimes: function(song_array, id_array, offset){
 
+    console.log(this.attributes.needs_updating);
     //this is the last stage in the information gathering, so we persist the model here
     if(id_array.length == 0){
       this.save({songs: song_array}, {
@@ -191,22 +207,58 @@ uPlaylist.Playlist = Backbone.Model.extend({
       }
     });
   },
+
+  //have to put this outside of apiCheck because apiCheck is recursive
   checkIfUpdateNeeded: function(){
     var request = uPlaylist.api_URL_base.concat(this.attributes.playlist_id).concat('&key=').concat(uPlaylist.api_key);
+    this.apiCheck(request, []);
+  },
+
+  //this is for the background checking to see if a playlist needs updating
+  apiCheck: function(request, cumulative_data){
     var self = this;
+
+    //if there are more pages to get, alter the request
+    if(self.next_page_token != undefined){
+      if(request.search('&pageToken=') == (-1)){
+        request = request.concat('&pageToken=').concat(self.next_page_token);
+      } else {
+        request = request.split('&pageToken=')[0].concat('&pageToken=' + self.next_page_token);
+      }
+    }
+
+    //get the data from the api
     $.ajax({
       async    : true,
       url      : request,
       type     : 'GET',
       success  : function(data) {
-        if(self.attributes.total_songs != data.pageInfo.totalResults){
-          self.save({needs_updating: 1}, {
+
+        //pushes all data into one array
+        cumulative_data.push(data.items);
+
+        //sees if we have another page to go to
+        self.next_page_token = data.nextPageToken;
+
+        //if we do, call this function again
+        if(self.next_page_token != undefined){
+          self.apiCall(request, cumulative_data);
+        } else {
+
+          //flattens all of the data gathered into one array
+          var all_data = [].concat.apply([], cumulative_data);
+
+          var check = self.parseData(all_data, true);
+          console.log(check);
+          //save the model to tell the service that this needs updating next time
+          self.save({needs_updating: check[0], md5_hash: check[1]}, {
             success: function(){
-              $(document).trigger("finished_with_data");
+              console.log("value of need_updating is now: ");
+              console.log(self.attributes.needs_updating);
+              console.log(self.attributes.md5_hash);
+              console.log("model persisted");
             }
           });
-        } else {
-          $(document).trigger("finished_with_data");
         }
       }
     });

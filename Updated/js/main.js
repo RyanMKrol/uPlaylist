@@ -83,11 +83,13 @@ uPlaylist.AppRouter = Backbone.Router.extend({
 
         //check to see if the songs have been gotten previously
         if(playlistModel.attributes.songs.length == 0 || playlistModel.attributes.needs_updating == 1){
-          console.log("we're going to update the playlist");
+          console.log(playlistModel.attributes.songs.length);
+          console.log(playlistModel.attributes.needs_updating);
           playlistModel.getData();
         } else {
           console.log("don't need to update the playlist just now");
           playlistModel.checkIfUpdateNeeded();
+          $(document).trigger("finished_with_data");
         }
       }, 1000);
     }
