@@ -8,6 +8,7 @@ uPlaylist.api_URL_base = 'https://www.googleapis.com/youtube/v3/playlistItems?pa
 
 uPlaylist.Playlist = Backbone.Model.extend({
 
+  //schema for a playlist
   defaults: {
     idAttribute : "_id",
     name: "",
@@ -23,14 +24,18 @@ uPlaylist.Playlist = Backbone.Model.extend({
 
   //some basic checking to see if the provided link is valid
   validateFunction: function(){
+
+    //setting up the variables for the checks
     var input = this.attributes.link;
     var valid_youtube_link = input.search('www.youtube.com/');
     var valid_playlist_link = input.search('list=');
     var is_currently_playing = input.search('watch');
 
+    //checking if the URL supplied is valid
     if(valid_youtube_link == (-1) || valid_playlist_link == (-1)){
       return {isValid: false, message: 'Link must be a youtube link with a valid playlist ID'};
     } else {
+
       //setting the id of the playlist to be the id of the youtube playlist
       this.attributes.playlist_id = this.attributes.link.split("list=")[1].split("&")[0];
       return {isValid: true};
@@ -40,8 +45,7 @@ uPlaylist.Playlist = Backbone.Model.extend({
   //starts the process for getting data from the API
   getData: function(){
 
-    //request is built here, api request has to be in a separate function because
-    // it may need to be called multiple times and is asynchronous
+    //request is built here and sent here because apiCall is recursive
     var request = uPlaylist.api_URL_base.concat(this.attributes.playlist_id).concat('&key=').concat(uPlaylist.api_key);
     this.apiCall(request, []);
   },
@@ -76,6 +80,8 @@ uPlaylist.Playlist = Backbone.Model.extend({
 
           //flattens all of the data gathered into one array
           var all_data = [].concat.apply([], cumulative_data);
+
+          //resets the needs updating, and updates the total results
           self.attributes.total_songs = data.pageInfo.totalResults;
           self.attributes.needs_updating = 0;
 
@@ -84,9 +90,18 @@ uPlaylist.Playlist = Backbone.Model.extend({
         }
       },
       error : function(){
-        //send them back to the home screen
-        //************************** POTENTIALLY DELETE THE MODEL HERE **************************
+
+        //alerts the user to the issue
         alert("Apologies, your playlist does not appear to exist");
+
+        //destroys this model made in local storage if the playlist doesn't exist
+        self.destroy({
+          success: function(model, response) {
+            console.log("destroyed self");
+          }
+        });
+
+        //tells the client's we're done, and there was a problem
         $(document).trigger("error_with_data");
       }
     });
@@ -104,6 +119,7 @@ uPlaylist.Playlist = Backbone.Model.extend({
 
     //go through all of the data
     $.each(data, function (key, val){
+
       //need to see if the video has been made private, or removed
       if((val.snippet.title != "Private video") && (val.snippet.title != "Deleted video")){
         if(!is_check){
@@ -118,7 +134,7 @@ uPlaylist.Playlist = Backbone.Model.extend({
           //used to get the runtimes from YouTube's API
           id_string += val.snippet.resourceId.videoId + '%2C+';
 
-          //pushing each id to the md5 array for hashing laterhttps://www.youtube.com/playlist?list=PLMNUXrGDzNpA_HRobzHdGpOfSb4O2OUlB
+          //pushing each id to the md5 array for hashing later
           md5_array.push(val.snippet.resourceId.videoId);
 
           //api can only take 50 things at a time, so flush the data on the 50th
@@ -127,10 +143,11 @@ uPlaylist.Playlist = Backbone.Model.extend({
             id_string = "";
           }
 
+          //add individual song to songs array
           song_array.push(song);
         }
-          
-        //pushing each id to the md5 array for hashing laterhttps://www.youtube.com/playlist?list=PLMNUXrGDzNpA_HRobzHdGpOfSb4O2OUlB
+
+        //pushing each id to the md5 array for hashing later
         md5_array.push(val.snippet.resourceId.videoId);
       }
     });
@@ -146,9 +163,9 @@ uPlaylist.Playlist = Backbone.Model.extend({
     //turn this array into a string
     var md5_string = md5(md5_array.join());
 
+    //if not a check get runtimes and set hash, else return check data
     if(!is_check){
       self.md5_hash = md5(md5_string);
-      //get the runtimes which requires it's own API request. reverse, so i can use pop
       this.getRunTimes(song_array, api_song_data.reverse(), 0);
     } else {
       var is_same_hash = self.attributes.md5_hash == md5_string ? 0 : 1;
@@ -159,7 +176,7 @@ uPlaylist.Playlist = Backbone.Model.extend({
   //used to get the runtimes of each video in the playlist
   getRunTimes: function(song_array, id_array, offset){
 
-    //this is the last stage in the information gathering, so we persist the model here
+    //on the last stage, persist the playlist model
     if(id_array.length == 0){
       this.save({songs: song_array}, {
         success: function(){
@@ -176,10 +193,7 @@ uPlaylist.Playlist = Backbone.Model.extend({
       return;
     }
 
-    //we have to call this function recursively in it's own callback because The
-    // ajax component is obviously asynchronouse. I keep track of the song position
-    //  by increasing the offset every time we call this.
-
+    //we call this function recursively by popping the array each time until empty
     var self = this;
     var baseURL = 'https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=';
     var requestURL = baseURL.concat(id_array.pop()).concat('&key=').concat(uPlaylist.api_key);
@@ -192,6 +206,7 @@ uPlaylist.Playlist = Backbone.Model.extend({
       url      : requestURL,
       type     : 'GET',
       success  : function(data) {
+
         //go through each of the returned values
         $.each(data.items, function(key, val){
             var seconds, minutes = 0;
