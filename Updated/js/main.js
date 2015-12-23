@@ -63,12 +63,17 @@ uPlaylist.AppRouter = Backbone.Router.extend({
 
         //this has to be inside in order to use the playlistModel created earlier
         $(document).on("finished_with_data", function(){
-
           //make the list view, then render it
           if(!self.listView){
             self.listView = new uPlaylist.ListView({model : playlistModel});
           }
           $('#content').html(self.listView.render().el);
+
+          if(!self.playerView){
+            self.playerView = new uPlaylist.Player();
+          }
+
+          $('#content').append(self.playerView.render().el);
 
           //removes the loading animation
           $('body').switchClass("loading", "loaded");
@@ -81,7 +86,6 @@ uPlaylist.AppRouter = Backbone.Router.extend({
           //get the data for the playlist
           playlistModel.getData();
         } else {
-
           //the check is done asynchronously in the background, so we can finish here
           $(document).trigger("finished_with_data");
           //check to see if we need to update the playlist the next time
@@ -93,7 +97,7 @@ uPlaylist.AppRouter = Backbone.Router.extend({
 });
 
 //load the templates
-uPlaylist.utils.loadTemplates(['Home', 'ListItem', 'ListView'], function() {
+uPlaylist.utils.loadTemplates(['Home', 'ListItem', 'ListView', 'Player'], function() {
   uPlaylist.app = new uPlaylist.AppRouter();
   Backbone.history.start();
 });
@@ -118,3 +122,8 @@ $(document).on("error_with_data", function(){
   $('body').switchClass("loading", "loaded");
   $('#loader-wrapper').css('pointer-events', 'none');
 });
+
+function onYouTubePlayerAPIReady(){
+  console.log("player api ready");
+  uPlaylist.is_player_api_ready = true;
+}

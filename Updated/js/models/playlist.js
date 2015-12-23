@@ -275,7 +275,7 @@ uPlaylist.Playlist = Backbone.Model.extend({
 
         //if we do, call this function again
         if(self.next_page_token != undefined){
-          self.apiCall(request, cumulative_data);
+          self.apiCheck(request, cumulative_data);
         } else {
 
           //flattens all of the data gathered into one array
@@ -283,7 +283,6 @@ uPlaylist.Playlist = Backbone.Model.extend({
 
           //check gets the needs_updating bit, and the new hash that will be used
           var check = self.parseData(all_data, true);
-
           //save the model to tell the service that this needs updating next time
           self.save({needs_updating: check[0], md5_hash: check[1]}, {
             success: function(){

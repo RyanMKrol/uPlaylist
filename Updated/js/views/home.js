@@ -4,12 +4,15 @@ var uPlaylist =  uPlaylist || {};
 
 uPlaylist.Home = Backbone.View.extend({
 
+  //template associated with the view
   template: _.template("../../tpl/Home.html"),
 
+  //events associated with this view
   events: {
       "submit form": "submit"
   },
 
+  //handles when the form is submitted
   submit: function(event) {
 
     //stop the page from refreshing/redirecting
@@ -40,7 +43,7 @@ uPlaylist.Home = Backbone.View.extend({
     this.collection.create( this.model, {
       wait: true,
       success: function(model, response) {
-        // later, we'll navigate to the browse view upon success
+        //navigate to a list view, #<id>
         uPlaylist.app.navigate('#'+model.id, {replace:true, trigger:true});
       },
       error: function(model, response) {
