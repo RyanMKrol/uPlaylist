@@ -2,19 +2,29 @@
 
 var uPlaylist =  uPlaylist || {};
 
+//when this script is loaded, load youtube's player api
 $( document ).ready(function(){
-  $.getScript( "https://www.youtube.com/iframe_api", function( data, textStatus, jqxhr ) {
-    console.log( "Load was performed." );
-  });
+
+  //gets external script
+  $.getScript( "https://www.youtube.com/iframe_api");
 });
 
+
+//triggers when the youtube api is ready, this will be triggered once this script
+// has loaded it using jQuery's getScript method
 function onYouTubePlayerAPIReady() {
 
+  //creates a new player using a div with the player id
   uPlaylist.player = new YT.Player('player', {
-    height: '390',
+    height: '360',
     width: '640',
     videoId: uPlaylist.currentPlaylist.attributes.songs[0].song_id,
-    playerVars: { 'controls': 1, 'modestbranding': 1, 'showinfo': 0, 'autoplay': 0 }, //change the autoplay thing here
+    playerVars: {
+      'controls': 1,
+      'modestbranding': 1,
+      'showinfo': 0,
+      'autoplay': 0
+    },
     events: {
       'onReady': onPlayerReady,
       'onStateChange': onPlayerStateChange
@@ -22,12 +32,14 @@ function onYouTubePlayerAPIReady() {
   });
 }
 
+//when the player finishes loading
 function onPlayerReady(){
-  console.log("player is ready");
+
+  //tell the loader to reveal content
   $(document).trigger("finished_loading_player");
 }
 
-// when video ends move to the next video in the playlist
+//when the video changes state
 function onPlayerStateChange(event) {
   // when a video ends
   if(event.data === 0) {

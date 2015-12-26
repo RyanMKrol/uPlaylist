@@ -75,13 +75,6 @@ uPlaylist.AppRouter = Backbone.Router.extend({
           }
 
           $('#content').append(self.playerView.render().el);
-
-          $(document).on("finished_loading_player", function(){
-            console.log("loader finishing");
-            //removes the loading animation
-            $('body').switchClass("loading", "loaded");
-            $('#loader-wrapper').css('pointer-events', 'none');
-          });
         });
 
         //check to see if the songs have been gotten previously
@@ -123,6 +116,37 @@ $(document).on("error_with_data", function(){
 
   //go back to the home page and remove the loading div
   uPlaylist.app.navigate('#', {replace:true, trigger:true});
+
+  //remove the loader
+  $(document).trigger("remove_loader");
+});
+
+//loading is only removed for legit requests when the player is loaded
+$(document).on("finished_loading_player", function(){
+
+  //remove the loader
+  $(document).trigger("remove_loader");
+});
+
+//having a separate event for specifically removing the loader, it's reused a lot
+$(document).on("remove_loader", function(){
+
+  //remove the loading animation
   $('body').switchClass("loading", "loaded");
   $('#loader-wrapper').css('pointer-events', 'none');
+
 });
+
+
+/*
+To Do List:
+  * Transition triggers need to be refined:
+    there is strange behaviour when the following happens:
+      load a legit page using input
+      navigate to error page in the URL
+      load another legit page by using the input
+
+  * Need to consider loading multiple playlists in a single session:
+      currently not possible due to broken transition triggers
+
+*/
