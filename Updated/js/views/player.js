@@ -12,8 +12,12 @@ uPlaylist.Player = Backbone.View.extend({
     //renders the template
     this.$el.html(this.template());
 
+    var imported = document.createElement('script');
+    imported.src = 'js/youtube_api.js';
+    document.getElementsByTagName('body')[0].appendChild(imported);
+
     //creates the youtube player
-    this.createPlayer();
+    // this.createPlayer();
 
     return this;
   },

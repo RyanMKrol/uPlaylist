@@ -122,8 +122,3 @@ $(document).on("error_with_data", function(){
   $('body').switchClass("loading", "loaded");
   $('#loader-wrapper').css('pointer-events', 'none');
 });
-
-function onYouTubePlayerAPIReady(){
-  console.log("player api ready");
-  uPlaylist.is_player_api_ready = true;
-}
