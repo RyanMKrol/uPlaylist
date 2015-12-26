@@ -45,10 +45,10 @@ uPlaylist.Home = Backbone.View.extend({
     var needs_creating = true;
     //used to get the id of the model in the collection
     var navigate_to = "";
-
+    
     //going through the collection to see if this model already exists
     $.each(this.collection.models, function (key, val){
-      if(val.attributes.link == self.model.attributes.link){
+      if(val.attributes.playlist_id == self.model.attributes.playlist_id){
         needs_creating = false;
         navigate_to = val.id;
         return false;

@@ -35,6 +35,7 @@ uPlaylist.AppRouter = Backbone.Router.extend({
   },
   list: function(id){
 
+    console.log("in list, so reinitiasing everything");
     var self = this;
 
     //start the loading animation
@@ -49,9 +50,11 @@ uPlaylist.AppRouter = Backbone.Router.extend({
 
     //get the playlist we want from the collection
     playlistModel = self.playlistCollection.get(id);
+    console.log(playlistModel);
     uPlaylist.currentPlaylist = playlistModel;
 
     $(document).one("transition_finish", function(){
+      console.log("okay let's do some work");
 
       if(playlistModel == undefined){
 
@@ -64,6 +67,7 @@ uPlaylist.AppRouter = Backbone.Router.extend({
 
         //this has to be inside in order to use the playlistModel created earlier
         $(document).on("finished_with_data", function(){
+          console.log("finished with the data yo");
           //make the list view, then render it
           if(!self.listView){
             self.listView = new uPlaylist.ListView({model : playlistModel});
@@ -79,10 +83,11 @@ uPlaylist.AppRouter = Backbone.Router.extend({
 
         //check to see if the songs have been gotten previously
         if(playlistModel.attributes.songs.length == 0 || playlistModel.attributes.needs_updating == 1){
-
+          console.log("getting the data");
           //get the data for the playlist
           playlistModel.getData();
         } else {
+          console.log("don't need no data, let's just finish already");
           //the check is done asynchronously in the background, so we can finish here
           $(document).trigger("finished_with_data");
           //check to see if we need to update the playlist the next time
@@ -102,11 +107,9 @@ uPlaylist.utils.loadTemplates(['Home', 'ListItem', 'ListView', 'Player'], functi
 /*  EVENT HANDLERS  */
 
 //used to listen for the end of the loading animation
-$("#transition_listener").on("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function(){
+$("#transition_listener").on("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function(event){
 
-  //this will call twice when the loading div closes and opens, this ensures that i
-  // only trigger the event once
-  if($('#loader-wrapper').css('pointer-events') == 'all'){
+  if(event.originalEvent.propertyName == 'transform' && $('#loader-wrapper').css('pointer-events') == 'all'){
     $(document).trigger("transition_finish");
   }
 });
