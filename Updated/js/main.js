@@ -76,9 +76,12 @@ uPlaylist.AppRouter = Backbone.Router.extend({
 
           $('#content').append(self.playerView.render().el);
 
-          //removes the loading animation
-          $('body').switchClass("loading", "loaded");
-          $('#loader-wrapper').css('pointer-events', 'none');
+          $(document).on("finished_loading_player", function(){
+            console.log("loader finishing");
+            //removes the loading animation
+            $('body').switchClass("loading", "loaded");
+            $('#loader-wrapper').css('pointer-events', 'none');
+          });
         });
 
         //check to see if the songs have been gotten previously
