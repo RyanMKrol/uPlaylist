@@ -159,7 +159,6 @@ uPlaylist.Playlist = Backbone.Model.extend({
     //i need to sort the ids to account for any change in ordering of songs The
     // user might do on youtube.
     md5_array.sort();
-    console.log(md5_array);
     //turn this array into a string
     var md5_string = md5(md5_array.join());
     //if not a check get runtimes and set hash, else return check data

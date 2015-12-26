@@ -49,6 +49,7 @@ uPlaylist.AppRouter = Backbone.Router.extend({
 
     //get the playlist we want from the collection
     playlistModel = self.playlistCollection.get(id);
+    uPlaylist.currentPlaylist = playlistModel;
 
     $(document).one("transition_finish", function(){
 

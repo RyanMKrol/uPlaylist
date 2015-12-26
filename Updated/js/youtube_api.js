@@ -1,10 +1,14 @@
+'use strict';
+
+var uPlaylist =  uPlaylist || {};
+
 function onYouTubePlayerAPIReady() {
 
     player = new YT.Player('player', {
       height: '390',
       width: '640',
-      videoId: '6q0dsG8fTHY',
-      playerVars: { 'controls': 1, 'modestbranding': 0, 'showinfo': 1, 'autoplay': 1 }, //change the autoplay thing here
+      videoId: uPlaylist.currentPlaylist.attributes.songs[0].song_id,
+      playerVars: { 'controls': 1, 'modestbranding': 1, 'showinfo': 0, 'autoplay': 0 }, //change the autoplay thing here
       events: {
         'onReady': onPlayerReady,
         'onStateChange': onPlayerStateChange
@@ -13,6 +17,7 @@ function onYouTubePlayerAPIReady() {
 }
 
 $( document ).ready(function(){
+  console.log(uPlaylist.currentPlaylist);
   $.getScript( "https://www.youtube.com/iframe_api", function( data, textStatus, jqxhr ) {
     console.log( "Load was performed." );
   });
@@ -35,16 +40,8 @@ function onPlayerReady(event) {
 
 // when video ends move to the next video in the playlist
 function onPlayerStateChange(event) {
-  console.log("state of player has changed");
-    // when a video ends
-    // if(event.data === 0) {
-    //     if(counter != counters.length - 1){
-    //         // change the colour of the text to be that of the next video in the list
-    //         changeTextColour(counter, counter+1);
-    //         // change the source of the video to be that of the next video in the list
-    //         setSource(counters[counter]);
-    //     } else {
-    //         changeTextColour(counter, undefined);
-    //     }
-    // }
+  // when a video ends
+  if(event.data === 0) {
+    console.log("video has ended");
+  }
 }
