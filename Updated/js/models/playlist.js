@@ -108,7 +108,7 @@ uPlaylist.Playlist = Backbone.Model.extend({
   },
   parseData: function(data, is_check){
 
-    //self used to avoid code hoisting
+    //self used to avoid scoping issues
     var self = this;
     var song;
     var position = 0;

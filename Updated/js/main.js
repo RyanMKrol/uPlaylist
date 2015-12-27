@@ -147,13 +147,6 @@ $(document).on("remove_loader", function(){
 
 /*
 To Do List:
-  * Transition triggers need to be refined:
-    there is strange behaviour when the following happens:
-      load a legit page using input
-      navigate to error page in the URL
-      load another legit page by using the input
 
-  * Need to consider loading multiple playlists in a single session:
-      currently not possible due to broken transition triggers
 
 */
