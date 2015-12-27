@@ -35,6 +35,7 @@ uPlaylist.AppRouter = Backbone.Router.extend({
   },
   list: function(id){
 
+    uPlaylist.firstLoad = true;
     console.log("in list, so reinitiasing everything");
     var self = this;
 
@@ -66,19 +67,22 @@ uPlaylist.AppRouter = Backbone.Router.extend({
       } else {
 
         //this has to be inside in order to use the playlistModel created earlier
-        $(document).on("finished_with_data", function(){
-          console.log("finished with the data yo");
+        $(document).one("finished_with_data", function(event){
+
+          console.log("let's make the view yo");
+
           //make the list view, then render it
-          if(!self.listView){
-            self.listView = new uPlaylist.ListView({model : playlistModel});
-          }
+          self.listView = new uPlaylist.ListView({model : playlistModel});
           $('#content').html(self.listView.render().el);
 
           if(!self.playerView){
             self.playerView = new uPlaylist.Player();
+            $('#content').append(self.playerView.render().el);
+          } else {
+            self.playerView = new uPlaylist.Player();
+            self.playerView.render();
           }
 
-          $('#content').append(self.playerView.render().el);
         });
 
         //check to see if the songs have been gotten previously

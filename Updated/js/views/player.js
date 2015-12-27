@@ -9,17 +9,39 @@ uPlaylist.Player = Backbone.View.extend({
   //render the view
   render: function () {
 
-    //renders the template
-    this.$el.html(this.template());
+    var self = this;
+    if(uPlaylist.player == undefined){
+      //renders the template
+      self.$el.html(self.template());
 
-    var imported = document.createElement('script');
-    imported.src = 'js/youtube_api.js';
-    document.getElementsByTagName('body')[0].appendChild(imported);
+      var imported = document.createElement('script');
+      imported.src = 'js/youtube_api.js';
+      document.getElementsByTagName('body')[0].appendChild(imported);
 
-    //creates the youtube player
-    // this.createPlayer();
+      return self;
+    } else {
 
-    return this;
+      //renders the template
+      self.$el.html(self.template());
+
+      console.log(self.$el);
+      $('#content').append(self.$el);
+
+      uPlaylist.player = new YT.Player('player', {
+        height: '360',
+        width: '640',
+        videoId: uPlaylist.currentPlaylist.attributes.songs[0].song_id,
+        playerVars: {
+          'controls': 1,
+          'modestbranding': 1,
+          'showinfo': 0,
+          'autoplay': 0
+        },
+        events: {
+          'onReady': function(){$(document).trigger("finished_loading_player");},
+          'onStateChange': onPlayerStateChange
+        }
+      });
+    }
   },
-  //player.loadVideoById(videoIDs[index], 0);
 });

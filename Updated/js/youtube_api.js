@@ -26,21 +26,15 @@ function onYouTubePlayerAPIReady() {
       'autoplay': 0
     },
     events: {
-      'onReady': onPlayerReady,
+      'onReady': function(){$(document).trigger("finished_loading_player");},
       'onStateChange': onPlayerStateChange
     }
   });
 }
 
-//when the player finishes loading
-function onPlayerReady(){
-
-  //tell the loader to reveal content
-  $(document).trigger("finished_loading_player");
-}
-
 //when the video changes state
 function onPlayerStateChange(event) {
+
   // when a video ends
   if(event.data === 0) {
     console.log("video has ended");
