@@ -69,7 +69,7 @@ uPlaylist.Playlist = Backbone.Model.extend({
       url      : request,
       type     : 'GET',
       success  : function(data) {
-
+        
         //build up the data store and see if there is another page to get
         cumulative_data.push(data.items);
         self.next_page_token = data.nextPageToken;

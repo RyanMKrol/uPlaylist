@@ -35,8 +35,7 @@ uPlaylist.AppRouter = Backbone.Router.extend({
   },
   list: function(id){
 
-    uPlaylist.firstLoad = true;
-    console.log("in list, so reinitiasing everything");
+    //used to avoid scoping issues
     var self = this;
 
     //start the loading animation
@@ -51,12 +50,13 @@ uPlaylist.AppRouter = Backbone.Router.extend({
 
     //get the playlist we want from the collection
     playlistModel = self.playlistCollection.get(id);
-    console.log(playlistModel);
+
+    //set the current playlist, used for the video player
     uPlaylist.currentPlaylist = playlistModel;
 
     $(document).one("transition_finish", function(){
-      console.log("okay let's do some work");
 
+      //if the playlist is undefined, the user does not have this in their localstorage
       if(playlistModel == undefined){
 
         //alert the user of the problem
@@ -69,12 +69,11 @@ uPlaylist.AppRouter = Backbone.Router.extend({
         //this has to be inside in order to use the playlistModel created earlier
         $(document).one("finished_with_data", function(event){
 
-          console.log("let's make the view yo");
-
           //make the list view, then render it
           self.listView = new uPlaylist.ListView({model : playlistModel});
           $('#content').html(self.listView.render().el);
 
+          //if a playerView already exists, the appending must be done manually
           if(!self.playerView){
             self.playerView = new uPlaylist.Player();
             $('#content').append(self.playerView.render().el);
@@ -82,16 +81,15 @@ uPlaylist.AppRouter = Backbone.Router.extend({
             self.playerView = new uPlaylist.Player();
             self.playerView.render();
           }
-
         });
 
         //check to see if the songs have been gotten previously
         if(playlistModel.attributes.songs.length == 0 || playlistModel.attributes.needs_updating == 1){
-          console.log("getting the data");
+
           //get the data for the playlist
           playlistModel.getData();
         } else {
-          console.log("don't need no data, let's just finish already");
+
           //the check is done asynchronously in the background, so we can finish here
           $(document).trigger("finished_with_data");
           //check to see if we need to update the playlist the next time
@@ -148,5 +146,12 @@ $(document).on("remove_loader", function(){
 /*
 To Do List:
 
+  
+  * Make the ordering changeable
+  * Make the UI we have, actually affect the player
+  * Ask for a name for the playlist
+  * UI
+  * Multiple Playlist Navigation
+  * Styling
 
 */

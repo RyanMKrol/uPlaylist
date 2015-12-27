@@ -45,7 +45,7 @@ uPlaylist.Home = Backbone.View.extend({
     var needs_creating = true;
     //used to get the id of the model in the collection
     var navigate_to = "";
-    
+
     //going through the collection to see if this model already exists
     $.each(this.collection.models, function (key, val){
       if(val.attributes.playlist_id == self.model.attributes.playlist_id){
@@ -57,6 +57,18 @@ uPlaylist.Home = Backbone.View.extend({
 
     //if the model doesn't exist, create it, otherwise navigate to it
     if(needs_creating){
+
+      //get a name for the playlist, to be used in the UI later
+      var name_of_playlist = prompt("What would you like to call this playlist?");
+
+      //set a default name for the playlist
+      if(name_of_playlist == "")
+        name_of_playlist = new String(this.collection.models.length + 1);
+
+      //set the name of the playlist
+      this.model.set({name: name_of_playlist});
+
+      //create the model in the data store
       this.collection.create( this.model, {
         wait: true,
         success: function(model, response) {
