@@ -18,7 +18,8 @@ uPlaylist.Playlist = Backbone.Model.extend({
     songs: new Array(),
     total_songs: 0,
     needs_updating: 0,
-    md5_hash: ""
+    md5_hash: "",
+    thumbnail: ""
   },
 
   //some basic checking to see if the provided link is valid
@@ -82,6 +83,7 @@ uPlaylist.Playlist = Backbone.Model.extend({
           //resets the needs updating, and updates the total results
           self.attributes.total_songs = data.pageInfo.totalResults;
           self.attributes.needs_updating = 0;
+          self.attributes.thumbnail = data.items[0].snippet.thumbnails.high.url;
 
           //parse the data and actually update the model
           self.parseData(all_data, false);

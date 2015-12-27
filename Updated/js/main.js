@@ -154,10 +154,11 @@ $(document).on("remove_loader", function(){
 /*
 To Do List:
 
+  * Maybe have thumbnails for playlist navigation on the home screen
   * Make the ordering changeable
   * Make the UI we have, actually affect the player
-  * Ask for a name for the playlist
   * UI
   * Styling
+  * Allow playlist renaming
 
 */
