@@ -63,7 +63,7 @@ uPlaylist.Home = Backbone.View.extend({
 
       //set a default name for the playlist
       if(name_of_playlist == "")
-        name_of_playlist = new String(this.collection.models.length + 1);
+        name_of_playlist = 'Playlist ' + new String(this.collection.models.length + 1);
 
       //set the name of the playlist
       this.model.set({name: name_of_playlist});

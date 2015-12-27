@@ -32,6 +32,9 @@ uPlaylist.AppRouter = Backbone.Router.extend({
     //making the view with the model and collection
     this.homeView = new uPlaylist.Home({model : playlistModel, collection: this.playlistCollection});
     $('#content').html(this.homeView.render().el);
+
+    this.availablePlaylistsView = new uPlaylist.AvailablePlaylists({collection: this.playlistCollection});
+    $('#content').append(this.availablePlaylistsView.render().el);
   },
   list: function(id){
 
@@ -101,13 +104,12 @@ uPlaylist.AppRouter = Backbone.Router.extend({
 });
 
 //load the templates
-uPlaylist.utils.loadTemplates(['Home', 'ListItem', 'ListView', 'Player'], function() {
+uPlaylist.utils.loadTemplates(['Home', 'AvailablePlaylist', 'AvailablePlaylists', 'ListItem', 'ListView', 'Player'], function() {
   uPlaylist.app = new uPlaylist.AppRouter();
   Backbone.history.start();
 });
 
 /*  EVENT HANDLERS  */
-
 //used to listen for the end of the loading animation
 $("#transition_listener").on("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function(event){
 
@@ -146,7 +148,6 @@ $(document).on("remove_loader", function(){
 /*
 To Do List:
 
-  
   * Make the ordering changeable
   * Make the UI we have, actually affect the player
   * Ask for a name for the playlist

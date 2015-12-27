@@ -12,7 +12,6 @@ uPlaylist.Playlist = Backbone.Model.extend({
   defaults: {
     idAttribute : "_id",
     name: "",
-    num_songs: 0.0,
     link : "",
     playlist_id: "",
     next_page_token: undefined,
@@ -29,7 +28,6 @@ uPlaylist.Playlist = Backbone.Model.extend({
     var input = this.attributes.link;
     var valid_youtube_link = input.search('www.youtube.com/');
     var valid_playlist_link = input.search('list=');
-    var is_currently_playing = input.search('watch');
 
     //checking if the URL supplied is valid
     if(valid_youtube_link == (-1) || valid_playlist_link == (-1)){
@@ -69,7 +67,7 @@ uPlaylist.Playlist = Backbone.Model.extend({
       url      : request,
       type     : 'GET',
       success  : function(data) {
-        
+
         //build up the data store and see if there is another page to get
         cumulative_data.push(data.items);
         self.next_page_token = data.nextPageToken;
