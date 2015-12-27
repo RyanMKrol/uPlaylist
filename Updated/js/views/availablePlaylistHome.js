@@ -1,10 +1,10 @@
 "use strict";
 
 var uPlaylist =  uPlaylist || {};
-uPlaylist.AvailablePlaylist = Backbone.View.extend({
+uPlaylist.AvailablePlaylistHome = Backbone.View.extend({
 
   //template associated with the view
-  template: _.template("../../tpl/AvailablePlaylist.html"),
+  template: _.template("../../tpl/AvailablePlaylistHome.html"),
 
   //renders the view
   render: function () {

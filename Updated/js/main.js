@@ -33,8 +33,8 @@ uPlaylist.AppRouter = Backbone.Router.extend({
     this.homeView = new uPlaylist.Home({model : playlistModel, collection: this.playlistCollection});
     $('#content').html(this.homeView.render().el);
 
-    this.availablePlaylistsView = new uPlaylist.AvailablePlaylists({collection: this.playlistCollection});
-    $('#content').append(this.availablePlaylistsView.render().el);
+    this.availablePlaylistsHomeView = new uPlaylist.AvailablePlaylistsHome({collection: this.playlistCollection});
+    $('#content').append(this.availablePlaylistsHomeView.render().el);
   },
   list: function(id){
 
@@ -76,6 +76,10 @@ uPlaylist.AppRouter = Backbone.Router.extend({
           self.listView = new uPlaylist.ListView({model : playlistModel});
           $('#content').html(self.listView.render().el);
 
+          //make the list view, then render it
+          self.availablePlaylistsContentView = new uPlaylist.AvailablePlaylistsHome({collection : self.playlistCollection});
+          $('#content').append(self.availablePlaylistsContentView.render().el);
+
           //if a playerView already exists, the appending must be done manually
           if(!self.playerView){
             self.playerView = new uPlaylist.Player();
@@ -89,10 +93,12 @@ uPlaylist.AppRouter = Backbone.Router.extend({
         //check to see if the songs have been gotten previously
         if(playlistModel.attributes.songs.length == 0 || playlistModel.attributes.needs_updating == 1){
 
+          console.log("getting data");
           //get the data for the playlist
           playlistModel.getData();
         } else {
 
+          console.log("not getting data");
           //the check is done asynchronously in the background, so we can finish here
           $(document).trigger("finished_with_data");
           //check to see if we need to update the playlist the next time
@@ -104,7 +110,7 @@ uPlaylist.AppRouter = Backbone.Router.extend({
 });
 
 //load the templates
-uPlaylist.utils.loadTemplates(['Home', 'AvailablePlaylist', 'AvailablePlaylists', 'ListItem', 'ListView', 'Player'], function() {
+uPlaylist.utils.loadTemplates(['Home', 'AvailablePlaylistHome', 'AvailablePlaylistsHome', 'ListItem', 'ListView', 'Player'], function() {
   uPlaylist.app = new uPlaylist.AppRouter();
   Backbone.history.start();
 });
@@ -152,7 +158,6 @@ To Do List:
   * Make the UI we have, actually affect the player
   * Ask for a name for the playlist
   * UI
-  * Multiple Playlist Navigation
   * Styling
 
 */
