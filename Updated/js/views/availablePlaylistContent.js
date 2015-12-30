@@ -9,8 +9,9 @@ uPlaylist.AvailablePlaylistContent = Backbone.View.extend({
   //renders the view
   render: function () {
 
-    //render the template with the associated model
-    this.$el.html(this.template(this.model.toJSON()));
+    //rendering like this ensures there is no surrounding div
+    var html = this.template(this.model.toJSON());
+    this.setElement(html);
 
     //return this template
     return this;
