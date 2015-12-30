@@ -1,1 +1,13 @@
 <div id = "playlistsAvailableHome"></div>
+<script>
+$( ".link_holder" ).hover(
+  function() {
+    console.log("hovering");
+    console.log(this);
+    $(this).find('p').addClass('show');
+  }, function(){
+    console.log("not hovering");
+    $(this).find('p').removeClass('show');
+  }
+);
+</script>

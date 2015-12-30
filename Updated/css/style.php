@@ -18,6 +18,9 @@ echo "background:     -ms-linear-gradient(90deg, #$colour1 10%, #$colour2 90%);"
 echo "background:      -o-linear-gradient(90deg, #$colour1 10%, #$colour2 90%);"; /* Opera 11.10+ */
 echo "background:         linear-gradient(90deg, #$colour1 10%, #$colour2 90%);"; /* W3C */
 echo "background-attachment: fixed;";
+echo "font-family: \"HelveticaNeue-Thin\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, \"Lucida Grande\", sans-serif;";
+echo "font-size: 24px;";
+echo "color: white;";
 echo "}";
 
 ?>
@@ -43,11 +46,6 @@ echo "}";
     padding-left: 7px;
     padding-right: 7px;
 
-    /* font properties */
-    font-family: "HelveticaNeue-Thin", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-    font-size: 30px;
-    color: white;
-
     background-color:rgba(0, 0, 0, 0.50);
     -webkit-transition: all 0.3s ease-out;
             transition: all 0.3s ease-out;
@@ -70,18 +68,24 @@ echo "}";
 }
 
 #playlistsAvailableHome {
+
+  /* gives the list only so much space */
+  width: 80%;
+
+  /* centers the list */
+  margin: auto;
   margin-top: 75px;
 }
 
 /* div holding the image tags */
 .link_holder{
-
+  position: relative;
   display:inline-block;
 
   width: 200px;
   height: 150px;
 
-  background-color:white;
+  background-color:black;
 
   margin: 2px;
 
@@ -103,9 +107,31 @@ img {
 
 /* behaviour for when the user hovers over the image*/
 img:hover {
-  opacity: 0.6;
+  opacity: 0.4;
   -webkit-transition: all 0.3s ease-out;
           transition: all 0.3s ease-out;
+}
+
+.link_holder p {
+  position: absolute;
+  top: 55px;
+  width: 100%;
+  margin: auto;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  pointer-events: none;
+
+  opacity: 0;
+  -webkit-transition: opacity 0.3s ease-out;
+          transition: opacity 0.3s ease-out;
+}
+.link_holder p.show {
+
+  opacity: 1;
+  -webkit-transition: opacity 0.3s ease-out;
+          transition: opacity 0.3s ease-out;
 }
 
 

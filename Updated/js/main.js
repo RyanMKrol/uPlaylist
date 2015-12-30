@@ -160,10 +160,9 @@ $(document).on("remove_loader", function(){
 
 });
 
-
 /*
 To Do List:
-
+  * Change the playlist naming to have a global counter instead of counting the current number
   * Make the ordering changeable
   * UI
   * Add a cool fade effect with the playlist name over the thumbnails
