@@ -37,7 +37,7 @@ echo "}";
     height: 50px;
 
     /* border properties */
-    border: 1px solid #c4c4c4;
+    border: 1px solid white;
     text-align: center;
 
     /* padding properties */
@@ -53,10 +53,16 @@ echo "}";
     /* stops the browser from outlining the input in a blue shadow */
     outline: none;
 
+    font-family: "HelveticaNeue-Thin", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-size: 24px;
+    color: white;
+
     /* puts a black shadow around the box */
     box-shadow: 0px 0px 5px #000000;
     -moz-box-shadow: 0px 0px 5px #000000;
     -webkit-box-shadow: 0px 0px 5px #000000;
+
+    margin-top: 7.5%;
 }
 
 /* dims the box when focus is on it */
@@ -71,10 +77,14 @@ echo "}";
 
   /* gives the list only so much space */
   width: 80%;
+  height: 315px;
 
   /* centers the list */
   margin: auto;
   margin-top: 75px;
+
+  overflow-y: scroll;
+
 }
 
 /* div holding the image tags */
@@ -88,6 +98,14 @@ echo "}";
   background-color:black;
 
   margin: 2px;
+
+  border-style: solid;
+  border-color: #bfbfbf;
+  border-width: 1px;
+
+  box-shadow: 0px 0px 5px #000000;
+  -moz-box-shadow: 0px 0px 5px #000000;
+  -webkit-box-shadow: 0px 0px 5px #000000;
 
 }
 
@@ -112,26 +130,33 @@ img:hover {
           transition: all 0.3s ease-out;
 }
 
+/* the style associated with the text in the thumbnails */
 .link_holder p {
+
+  /* positional and size properties */
   position: absolute;
   top: 55px;
   width: 100%;
   margin: auto;
 
+  /* text that is too long will have an ellipsis */
   overflow: hidden;
   text-overflow: ellipsis;
 
+  /* stops the cursor from interfering with hover event */
   pointer-events: none;
 
+  /* by default text is not visible */
   opacity: 0;
   -webkit-transition: opacity 0.3s ease-out;
           transition: opacity 0.3s ease-out;
 }
+/* when this is activated, the text will appear */
 .link_holder p.show {
 
   opacity: 1;
-  -webkit-transition: opacity 0.3s ease-out;
-          transition: opacity 0.3s ease-out;
+  -webkit-transition: opacity 0.2s ease-out;
+          transition: opacity 0.2s ease-out;
 }
 
 
