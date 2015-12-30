@@ -40,3 +40,7 @@ function onPlayerStateChange(event) {
     console.log("video has ended");
   }
 }
+
+function changePlayerSource(id){
+  uPlaylist.player.loadVideoById(id, 0);
+}

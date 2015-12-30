@@ -77,8 +77,9 @@ uPlaylist.AppRouter = Backbone.Router.extend({
           $('#content').html(self.listView.render().el);
 
           //make the list view, then render it
-          self.availablePlaylistsContentView = new uPlaylist.AvailablePlaylistsHome({collection : self.playlistCollection});
+          self.availablePlaylistsContentView = new uPlaylist.AvailablePlaylistsContent({collection : self.playlistCollection});
           $('#content').append(self.availablePlaylistsContentView.render().el);
+
 
           //if a playerView already exists, the appending must be done manually
           if(!self.playerView){
@@ -110,7 +111,16 @@ uPlaylist.AppRouter = Backbone.Router.extend({
 });
 
 //load the templates
-uPlaylist.utils.loadTemplates(['Home', 'AvailablePlaylistHome', 'AvailablePlaylistsHome', 'ListItem', 'ListView', 'Player'], function() {
+uPlaylist.utils.loadTemplates([
+  'Home',
+  'AvailablePlaylistHome',
+  'AvailablePlaylistsHome',
+  'AvailablePlaylistContent',
+  'AvailablePlaylistsContent',
+  'ListItem',
+  'ListView',
+  'Player'
+], function() {
   uPlaylist.app = new uPlaylist.AppRouter();
   Backbone.history.start();
 });
@@ -154,10 +164,9 @@ $(document).on("remove_loader", function(){
 /*
 To Do List:
 
-  * Maybe have thumbnails for playlist navigation on the home screen
   * Make the ordering changeable
-  * Make the UI we have, actually affect the player
   * UI
+  * Add a cool fade effect with the playlist name over the thumbnails
   * Styling
   * Allow playlist renaming
 

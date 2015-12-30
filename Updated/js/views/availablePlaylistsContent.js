@@ -22,7 +22,6 @@ uPlaylist.AvailablePlaylistsContent = Backbone.View.extend({
       item = new uPlaylist.AvailablePlaylistContent({model: val});
       self.$('#playlistsAvailableContent').append(item.render().el);
     });
-
     return self;
   }
 });

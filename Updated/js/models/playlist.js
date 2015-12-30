@@ -84,7 +84,6 @@ uPlaylist.Playlist = Backbone.Model.extend({
           self.attributes.total_songs = data.pageInfo.totalResults;
           self.attributes.needs_updating = 0;
           self.attributes.thumbnail = data.items[0].snippet.thumbnails.high.url;
-
           //parse the data and actually update the model
           self.parseData(all_data, false);
         }

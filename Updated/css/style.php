@@ -1,5 +1,5 @@
 <?php
-
+// randomised the background style
 header("Content-type: text/css; charset: UTF-8");
 $array1 = array("F1F2B5","7b4397","8e9eab","136a8a","00bf8f","ffb347","43cea2","D38312","73C8A9","83a4d4","52c234", "fe8c00","556270","9D50BB","B3FFAB","DAD299","215f00","3D7EAA",
                 "1CD8D2","134E5E","2BC0E4","085078","1D976C","4CB8C4","1A2980","F09819","3CA55C","348F50");
@@ -22,223 +22,49 @@ echo "}";
 
 ?>
 
-html, body{
-    width:100%;
-    height:100%;
-    margin:0;
-    background-attachment: fixed;
-    overflow:hidden;
+/* centers the content */
+.centered{
+  text-align: center;
 }
 
+/* styling the input box */
+.user_input{
 
-#playlistID {
-    /*position properties*/
-    position:relative;
+    width: 45%;
+    height: 50px;
 
-    left: 22.5%;
-    width: 55%;
-    height: 60px;
-
-    /*border properties*/
+    /* border properties */
     border: 1px solid #c4c4c4;
     text-align: center;
 
-    /*padding properties*/
+    /* padding properties */
     padding-top: 5px;
     padding-bottom: 5px;
     padding-left: 7px;
     padding-right: 7px;
 
-    /*font properties*/
+    /* font properties */
     font-family: "HelveticaNeue-Thin", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-    font-size: 50px;
+    font-size: 30px;
+    color: white;
 
-    /*giving the text box curved corners*/
-    -webkit-border-radius: 20px;
-    -moz-border-radius: 20px;
-    border-radius: 20px;
-
-    background-color:rgba(0, 0, 0, 0.35);
+    background-color:rgba(0, 0, 0, 0.50);
     -webkit-transition: all 0.3s ease-out;
             transition: all 0.3s ease-out;
 
-    /*shadow properties*/
+    /* stops the browser from outlining the input in a blue shadow */
     outline: none;
-    box-shadow: 0px 0px 00px #000000;
-    -moz-box-shadow: 0px 0px 00px #000000;
-    -webkit-box-shadow: 0px 0px 00px #000000;
-}
-#playlistID:focus {
-        background-color:rgba(255,255,255,1);
-        box-shadow: 0px 0px 10px #000000;
-        -moz-box-shadow: 0px 0px 10px #000000;
-        -webkit-box-shadow: 0px 0px 10px #000000;
 
-        -webkit-transition: all 0.3s ease-out;
-                transition: all 0.3s ease-out;
-}
-/*determines the properties of the placeholder*/
-.playlistID::-webkit-input-placeholder {
-    /*the placeholder is currently a grey colour*/
-    text-align: center;
+    /* puts a black shadow around the box */
+    box-shadow: 0px 0px 5px #000000;
+    -moz-box-shadow: 0px 0px 5px #000000;
+    -webkit-box-shadow: 0px 0px 5px #000000;
 }
 
+/* dims the box when focus is on it */
+.user_input:focus {
+  background-color:rgba(0, 0, 0, 0.20);
 
-.content{
-    position:absolute;
-    width: 100%;
-    height: 180px;
-    top: 35%;
-}
-
-.slogan{
-    position:absolute;
-    font-family: "HelveticaNeue-Thin", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-    font-size: 35px;
-    width:44%;
-    top : 30%;
-    left :28%;
-    text-align: center;
-    overflow: visible;
-    white-space: nowrap;
-}
-
-input{
-    position:absolute;
-}
-
-
-/* all of this is for the playlist list page*/
-.indexHolder{
-    position:absolute;
-    width:50px;
-    height:30px;
-    text-align: center;
-    top:5px;
-}
-
-ul{
-    position:absolute;
-    width:65%;
-    left:12.5%;
-    height:50%;
-    top:25%;
-    margin:0;
-    padding:0;
-    list-style-type: none;
-    overflow-y: scroll;
-}
-
-#sortable li span{
-    position:absolute;
-}
-#sortable li {
-    position:relative;
-    width: 100%;
-    height: 30px;
-
-    padding:0;
-    border:solid;
-    border-width: 2px;
-    border-radius: 5px;
-    border-color: #0;
-
-    margin-top:2px;
-    background-color:#A0D468;
-
-    font-family: "HelveticaNeue-Thin", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-s80f;
-}
-
-.index{
-    padding-top: 5px;
-    text-align: center;
-}
-.title{
-    left: 50px;
-    border-left-style: solid;
-    border-left-width: 2px;
-    padding-top: 5px;
-    padding-bottom:7px;
-    padding-left: 5px;
-}
-#sortable li .time{
-    position:absolute;
-    right:0px;
-    padding-top: 5px;
-    height:20px;
-    width: 60px;
-    padding-bottom:5px;
-
-    border-left-style: solid;
-    border-left-width: 2px;
-    text-align: center;
-
-}
-
-#sortable li:active{
-    background-color: #ece8e8;
-
-    -webkit-transition: background-color 0.3s ease-out;
-    -moz-transition: background-color 0.3s ease-out;
-    -ms-transition: background-color 0.3s ease-out;
-    -o-transition: background-color 0.3s ease-out;
-    transition: background-color 0.3s ease-out;
-}
-
-/*
-
-#sortable {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-}
-
-html, body{
-    height:100%;
-    width:100%;
-}
-
-.title{
-    position:relative;
-    display:inline-block;
-    width: 80%;
-    left:10%;
-    top:25px;
-    height:100%;
-
-    top: 50%;
-      	-webkit-transform: translateY(-50%);
-      	-ms-transform: translateY(-50%);
-      	transform: translateY(-50%);
-
-    text-align: center;
-
-    border:solid;
-    border-width: 2px;
-    border-color: #0;
-}
-
-#sortable li {
-
-    width: 100%;
-    height: 30px;
-    border:solid;
-    border-width: 2px;
-    border-radius: 5px;
-    border-color: #0;
-    margin: 2px;
-    background-color:#A0D468;
-
-    font-family: "HelveticaNeue-Thin", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-}
-
-#sortable li:active{
-    background-color: #ece8e8;
-
-    -webkit-transition: background-color 0.3s ease-out;
-    -moz-transition: background-color 0.3s ease-out;
-    -ms-transition: background-color 0.3s ease-out;
-    -o-transition: background-color 0.3s ease-out;
-    transition: background-color 0.3s ease-out;
+  -webkit-transition: all 0.3s ease-out;
+          transition: all 0.3s ease-out;
 }
