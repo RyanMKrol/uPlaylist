@@ -159,7 +159,43 @@ img:hover {
           transition: opacity 0.2s ease-out;
 }
 
+#listContent {
+  list-style-type: none;
+}
 
+#listContent li {
+  position: relative;
+  background-color: green;
+  border-style: solid;
+  border-width: 1px;
+}
+.position{
+
+  /*position and size styling*/
+  position: absolute;
+  top: 50%;
+  left: 1%;
+
+  /*centering style*/
+  -webkit-transform: translate(0%, -50%);
+  transform: translate(0%, -50%);
+
+  /* border properties */
+  border-right-style: solid;
+  border-right-width: 2px;
+
+  /*pads out the border*/
+  padding: 20px 20px 20px 0px;
+}
+.thumbnail{
+
+}
+.title{
+
+}
+.time{
+
+}
 
 
 
