@@ -159,42 +159,48 @@ img:hover {
           transition: opacity 0.2s ease-out;
 }
 
+#playlistsAvailableContent{
+  display: none;
+}
+
 #listContent {
   list-style-type: none;
+  text-align: left;
 }
 
 #listContent li {
   position: relative;
+  height: 100%;
   background-color: green;
   border-style: solid;
   border-width: 1px;
 }
-.position{
 
-  /*position and size styling*/
-  position: absolute;
-  top: 50%;
-  left: 1%;
+/* top: 50%;
+left: 25px;
+-webkit-transform: translate(0%, -50%);
+transform: translate(0%, -50%);
+border-right-style: solid;
+border-right-width: 2px;
+padding: 20px 20px 20px 0px; */
 
-  /*centering style*/
-  -webkit-transform: translate(0%, -50%);
-  transform: translate(0%, -50%);
-
-  /* border properties */
-  border-right-style: solid;
-  border-right-width: 2px;
-
-  /*pads out the border*/
+.position {
+  display: inline;
   padding: 20px 20px 20px 0px;
+  height: 100%;
+  background-color: black;
 }
-.thumbnail{
-
+.thumbnail {
+  display: inline;
+  height: 100%;
 }
-.title{
-
+.title {
+  display: inline;
+  height: 100%;
 }
-.time{
-
+.time {
+  display: inline;
+  height: 100%;
 }
 
 

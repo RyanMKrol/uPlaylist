@@ -10,7 +10,9 @@ uPlaylist.ListItem = Backbone.View.extend({
   render: function () {
 
     //render the template with the associated model
-    this.$el.html(this.template(this.model));
+
+    var html = this.template(this.model);
+    this.setElement(html);
 
     //return this template
     return this;
