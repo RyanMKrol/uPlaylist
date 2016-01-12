@@ -15,8 +15,8 @@ uPlaylist.Player = Backbone.View.extend({
     //if there is not already a playlist, load the api and insert a player
     if(uPlaylist.player == undefined){
 
-      //renders the template
-      self.$el.html(self.template());
+      var html = self.template();
+      self.setElement(html);
 
       //imports the new script that will cause the youtube api to load
       var imported = document.createElement('script');
@@ -28,8 +28,8 @@ uPlaylist.Player = Backbone.View.extend({
 
     } else {
 
-      //renders the template
-      self.$el.html(self.template());
+      var html = self.template();
+      self.setElement(html);
 
       //places the div manually, so that the YTPlayer has something to attach to
       $('#content').append(self.$el);
