@@ -115,6 +115,7 @@ uPlaylist.Playlist = Backbone.Model.extend({
     var api_song_data = new Array();
     var id_string = "";
     var md5_array = new Array();
+    var position_length = (new String(data.length)).length;
 
     //go through all of the data
     $.each(data, function (key, val){
@@ -128,7 +129,7 @@ uPlaylist.Playlist = Backbone.Model.extend({
           song.set('title', val.snippet.title);
           song.set('thumbnail', val.snippet.thumbnails.default.url);
           song.set('song_id', val.snippet.resourceId.videoId);
-          song.set('position', position++);
+          song.set('position', padNum(position++, position_length));
 
           //used to get the runtimes from YouTube's API
           id_string += val.snippet.resourceId.videoId + '%2C+';
@@ -291,3 +292,12 @@ uPlaylist.Playlist = Backbone.Model.extend({
     });
   }
 });
+
+function padNum(number, digits){
+  var number_string = new String(number);
+  var i = 0, j = digits - number_string.length;
+  for(i = 0; i < j; i++){
+    number_string = '0' + number_string;
+  }
+  return number_string;
+}

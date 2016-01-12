@@ -166,26 +166,25 @@ img:hover {
 #listContent {
   list-style-type: none;
   text-align: left;
-  paddin: 0px;
+  padding: 0px;
+  border-bottom-style:solid;
+  border-bottom-width:1px;
+  width: 75%;
+  margin: auto;
 }
 
 #listContent li {
   position: relative;
-  height: 160px;
-  width: 75%;
-  background-color: green;
+  height: 45px;
+  width: 100%;
+  background-color: rgba(242, 242, 242, 0.50);
   border-style: solid;
   border-width: 1px;
+  border-bottom-style: none;
   margin: auto;
+  overflow: hidden;
+  font-size: 80%;
 }
-
-/* top: 50%;
-left: 25px;
--webkit-transform: translate(0%, -50%);
-transform: translate(0%, -50%);
-border-right-style: solid;
-border-right-width: 2px;
-padding: 20px 20px 20px 0px; */
 
 .position {
   position: relative;
@@ -207,9 +206,9 @@ padding: 20px 20px 20px 0px; */
 
   border-right-style: solid;
   border-right-color: white;
-  border-right-width: 2px;
+  border-right-width: 1px;
 
-  padding: 40px 15px 40px 10px;
+  padding: 6px 15px 6px 10px;
 
 }
 .thumbnail {
@@ -234,6 +233,7 @@ padding: 20px 20px 20px 0px; */
   height: 100%;
   float: left;
   width: 60%;
+  padding-left: 15px;
 }
 
 .title_text {
