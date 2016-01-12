@@ -166,14 +166,17 @@ img:hover {
 #listContent {
   list-style-type: none;
   text-align: left;
+  paddin: 0px;
 }
 
 #listContent li {
   position: relative;
   height: 160px;
+  width: 75%;
   background-color: green;
   border-style: solid;
   border-width: 1px;
+  margin: auto;
 }
 
 /* top: 50%;
@@ -190,7 +193,6 @@ padding: 20px 20px 20px 0px; */
   height: 100%;
   width: 50px;
   margin: 0px;
-  background-color: black;
   float: left;
 }
 
@@ -212,14 +214,18 @@ padding: 20px 20px 20px 0px; */
 }
 .thumbnail {
   position: relative;
-  margin: 0px;
-  top: 0px;
   height: 100%;
-  float: left;
-
-  background-color: white;
-
+  width: 200px;
   padding-left: 35px;
+  padding-right: 35px;
+  float: left;
+}
+
+.thumbnail img{
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translate(0%, -50%);
+  transform: translate(0%, -50%);
 }
 .title {
   position: relative;
@@ -227,13 +233,29 @@ padding: 20px 20px 20px 0px; */
   top: 0px;
   height: 100%;
   float: left;
+  width: 60%;
+}
+
+.title_text {
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translate(0%, -50%);
+  transform: translate(0%, -50%);
 }
 .time {
   position: relative;
   margin: 0px;
   top: 0px;
   height: 100%;
-  float: left;
+  width: 80px;
+  float: right;
+}
+.time_text {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }
 
 
