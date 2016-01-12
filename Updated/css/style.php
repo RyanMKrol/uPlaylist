@@ -208,7 +208,7 @@ img:hover {
   border-right-color: white;
   border-right-width: 1px;
 
-  padding: 6px 15px 6px 10px;
+  padding: 6px 10px 6px 15px;
 
 }
 .thumbnail {
