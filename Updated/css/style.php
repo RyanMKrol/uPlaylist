@@ -170,7 +170,7 @@ img:hover {
 
 #listContent li {
   position: relative;
-  height: 100%;
+  height: 160px;
   background-color: green;
   border-style: solid;
   border-width: 1px;
@@ -185,22 +185,55 @@ border-right-width: 2px;
 padding: 20px 20px 20px 0px; */
 
 .position {
-  display: inline;
-  padding: 20px 20px 20px 0px;
+  position: relative;
+  top: 0px;
   height: 100%;
+  width: 50px;
+  margin: 0px;
   background-color: black;
+  float: left;
+}
+
+.position_text{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+
+  /*centers the component*/
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+
+  border-right-style: solid;
+  border-right-color: white;
+  border-right-width: 2px;
+
+  padding: 40px 15px 40px 10px;
+
 }
 .thumbnail {
-  display: inline;
+  position: relative;
+  margin: 0px;
+  top: 0px;
   height: 100%;
+  float: left;
+
+  background-color: white;
+
+  padding-left: 35px;
 }
 .title {
-  display: inline;
+  position: relative;
+  margin: 0px;
+  top: 0px;
   height: 100%;
+  float: left;
 }
 .time {
-  display: inline;
+  position: relative;
+  margin: 0px;
+  top: 0px;
   height: 100%;
+  float: left;
 }
 
 
