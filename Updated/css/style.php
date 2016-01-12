@@ -25,6 +25,11 @@ echo "}";
 
 ?>
 
+* {
+  margin:0;
+  padding:0;
+}
+
 /* centers the content */
 .centered{
   text-align: center;
@@ -84,6 +89,17 @@ echo "}";
   margin-top: 75px;
 
   overflow-y: scroll;
+
+}
+
+#player {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+
+  /*centers the component*/
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 
 }
 
@@ -171,6 +187,8 @@ img:hover {
   border-bottom-width:1px;
   width: 75%;
   margin: auto;
+  margin-top: 25px;
+  margin-bottom: 25px;
 }
 
 #listContent li {
