@@ -1,16 +1,26 @@
 <?php
 // randomised the background style
 header("Content-type: text/css; charset: UTF-8");
+
+// first array of colour
 $array1 = array("F1F2B5","7b4397","8e9eab","136a8a","00bf8f","ffb347","43cea2","D38312","73C8A9","83a4d4","52c234", "fe8c00","556270","9D50BB","B3FFAB","DAD299","215f00","3D7EAA",
                 "1CD8D2","134E5E","2BC0E4","085078","1D976C","4CB8C4","1A2980","F09819","3CA55C","348F50");
+
+// second array of colour
 $array2 = array("135058","dc2430","eef2f3","267871","001510","ffcc33","185a9d","A83279","373B44","b6fbff","061700", "f83600","FF6B6B","6E48AA","12FFF7","B0DAB9","e4e4d9","FFE47A",
                 "93EDC7","71B280","EAECC6","85D8CE","93F9B9","3CD3AD","26D0CE","EDDE5D","B5AC49","56B4D3");
 
+// gets a random index into these array
 $index  = rand(0, count($array1)-1);
+
+// gets each colour
 $colour1 = $array1[$index];
 $colour2 = $array2[$index];
+
+// decodes them into hex values
 $colour3 = dechex((hexdec($colour1) + hexdec($colour2))/2);
 
+// applies the style to the body
 echo "body {";
 echo "background: -webkit-linear-gradient(90deg, #$colour1 10%, #$colour2 90%);"; /* Chrome 10+, Saf5.1+ */
 echo "background:    -moz-linear-gradient(90deg, #$colour1 10%, #$colour2 90%);"; /* FF3.6+ */
@@ -22,18 +32,20 @@ echo "font-family: \"HelveticaNeue-Thin\", \"Helvetica Neue Light\", \"Helvetica
 echo "font-size: 24px;";
 echo "color: white;";
 echo "}";
-
 ?>
 
+/*resets all margin and padding values*/
 * {
   margin:0;
   padding:0;
 }
 
+/*sets all things holding content to fit the window fully*/
 html, body, main, #mainrow, #content {
   height: 100%;
   width: 100%;
 }
+
 /* centers the content */
 .centered{
   text-align: center;
@@ -62,6 +74,7 @@ html, body, main, #mainrow, #content {
     /* stops the browser from outlining the input in a blue shadow */
     outline: none;
 
+    /*font properties*/
     font-family: "HelveticaNeue-Thin", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
     font-size: 24px;
     color: white;
@@ -82,6 +95,7 @@ html, body, main, #mainrow, #content {
           transition: all 0.3s ease-out;
 }
 
+/*the list holding the thumbnails representing each playlist*/
 #playlistsAvailableHome {
 
   /* gives the list only so much space */
@@ -92,11 +106,14 @@ html, body, main, #mainrow, #content {
   margin: auto;
   margin-top: 75px;
 
-  overflow-y: scroll;
-
+  /*shows the playlists if they overflow*/
+  overflow-y: visible;
 }
 
+/*the style for the youtube player*/
 #player {
+
+  /*positional properties*/
   position: fixed;
   top: 50%;
   left: 50%;
@@ -109,9 +126,12 @@ html, body, main, #mainrow, #content {
 
 /* div holding the image tags */
 .link_holder{
+
+  /*position properties*/
   position: relative;
   display:inline-block;
 
+  /*size properties*/
   width: 200px;
   height: 150px;
 
@@ -119,10 +139,12 @@ html, body, main, #mainrow, #content {
 
   margin: 2px;
 
+  /*border properties*/
   border-style: solid;
   border-color: #bfbfbf;
   border-width: 1px;
 
+  /*shadow properties*/
   box-shadow: 0px 0px 5px #000000;
   -moz-box-shadow: 0px 0px 5px #000000;
   -webkit-box-shadow: 0px 0px 5px #000000;
@@ -179,15 +201,18 @@ img:hover {
           transition: opacity 0.2s ease-out;
 }
 
+/*i currently don't want to display this on the content page*/
 #playlistsAvailableContent{
   display: none;
 }
 
+/*content fills the page*/
 .content {
   width: 100%;
   height: 100%;
 }
 
+/*div holding the full list*/
 .list_holder {
   top: 25px;
   position: absolute;
@@ -195,32 +220,55 @@ img:hover {
   height: 100%;
 }
 
+/*the unordered list itself*/
 #listContent {
+
+  /*no bullet points in the list*/
   list-style-type: none;
+
+  /*text alignment*/
   text-align: left;
+
+  /*border properties*/
   border-bottom-style: solid;
   border-bottom-width: 1px;
+
+  /*positional and size properties*/
   width: 75%;
   top: 10%;
+
+  /*centers the list in the page and leaves some space at the bottom*/
   margin: auto;
   margin-bottom: 25px;
+
+  /*used to make the bottom border go all the way to the edge*/
   padding-right: 2px;
 }
 
+/*style for the items in the unordered list*/
 #listContent li {
+
+  /*positional and size properties*/
   position: relative;
   height: 45px;
   width: 100%;
+
+  /*background and border properties*/
   background-color: rgba(242, 242, 242, 0.50);
   border-style: solid;
   border-width: 1px;
   border-bottom-style: none;
+
+  /*misc properties*/
   margin: auto;
   overflow: hidden;
   font-size: 80%;
 }
 
+/*the class holding the position of each song*/
 .position {
+
+  /*positional and size properties*/
   position: relative;
   top: 0px;
   height: 100%;
@@ -230,6 +278,8 @@ img:hover {
 }
 
 .position_text{
+
+  /*the div inside the position div, this is used mainly for centering*/
   position: absolute;
   left: 50%;
   top: 50%;
@@ -238,63 +288,90 @@ img:hover {
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 
+  /*border properties*/
   border-right-style: solid;
   border-right-color: white;
   border-right-width: 1px;
-
   padding: 6px 10px 6px 15px;
 
 }
 
+/*the div holding the title information*/
 .title {
+  /*positional properties*/
   position: relative;
   margin: 0px;
-  top: 0px;
-  height: 100%;
-  float: left;
-  width: 60%;
   padding-left: 15px;
+  float: left;
+  top: 0px;
+
+  /*size properties*/
+  height: 100%;
+  width: 60%;
 }
 
+/*div used for centering the text itself*/
 .title_text {
+
+  /*centering css*/
   position: absolute;
   top: 50%;
   -webkit-transform: translate(0%, -50%);
   transform: translate(0%, -50%);
 }
+
+/*div holding the time information*/
 .time {
+
+  /*positioning properties*/
   position: relative;
   margin: 0px;
   top: 0px;
+  float: right;
+
+  /*size properties*/
   height: 100%;
   width: 80px;
-  float: right;
 }
+
+/*centering the time text*/
 .time_text {
+
+  /*positional properties*/
   position: absolute;
   left: 50%;
   top: 50%;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 
+  /*border proeprties*/
   border-left-style: solid;
   border-left-color: white;
   border-left-width: 1px;
-
   padding: 6px 10px 6px 15px;
 }
 
+/*the handle is used to drag the songs into a new position*/
 .handle {
+
+  /*positional properties*/
   position: relative;
   top: 0px;
+  float: right;
+
+  /*size properties*/
   height: 100%;
   width: 50px;
-  float: right;
+
+  /*border properties*/
   border-left-style:solid;
   border-left-width:1px;
 }
 
+/*centering the handle itself*/
 .handle_content{
+
+  /*positional properties*/
   position: absolute;
   left: 50%;
   top: 50%;
