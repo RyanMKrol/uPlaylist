@@ -413,6 +413,63 @@ img:hover {
   transform: translate(-50%, -50%);
 }
 
+@media only screen and (min-width: 1000px) {
+  #listContent {
+    font-size: 22px;
+  }
+  /*the div holding the title information*/
+  .title {
+    width: 550px;
+  }
+}
+@media only screen and (max-width: 1000px) {
+  #listContent {
+    font-size: 20px;
+  }
+  /*the div holding the title information*/
+  .title {
+    width: 400px;
+  }
+}
+@media only screen and (max-width: 800px) {
+  #listContent {
+    font-size: 18px;
+  }
+  /*the div holding the title information*/
+  .title {
+    width: 270px;
+  }
+}
+@media only screen and (max-width: 600px) {
+  #listContent {
+    font-size: 16px;
+  }
+
+  /*the div holding the title information*/
+  .title {
+    width: 125px;
+  }
+  .time {
+    width: 55px;
+  }
+}
+@media only screen and (max-width: 460px) {
+  #listContent {
+    font-size: 16px;
+  }
+
+  /*the div holding the title information*/
+  .title {
+    width: 100px;
+  }
+
+  .time {
+    width: 55px;
+  }
+}
+
+
+
 
 
 /* This all deals with the loading beginning and the black screen shutting */
