@@ -352,7 +352,26 @@ img:hover {
 
   /*size properties*/
   height: 100%;
-  width: 80px;
+  width: 65px;
+}
+
+.time_border{
+  /*positioning and size properties*/
+  position: absolute;
+  height: 70%;
+  width: 100%;
+  left: 50%;
+  top: 50%;
+
+  /*centers the component*/
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+
+
+  /*border proeprties*/
+  border-left-style: solid;
+  border-left-color: white;
+  border-left-width: 1px;
 }
 
 /*centering the time text*/
@@ -364,12 +383,6 @@ img:hover {
   top: 50%;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
-
-  /*border proeprties*/
-  border-left-style: solid;
-  border-left-color: white;
-  border-left-width: 1px;
-  padding: 6px 10px 6px 15px;
 }
 
 /*the handle is used to drag the songs into a new position*/
