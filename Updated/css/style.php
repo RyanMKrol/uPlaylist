@@ -274,9 +274,29 @@ img:hover {
   position: relative;
   top: 0px;
   height: 100%;
-  width: 50px;
+  width: 40px;
   margin: 0px;
   float: left;
+
+}
+
+.position_border{
+
+  /*positioning and size properties*/
+  position: absolute;
+  height: 70%;
+  width: 100%;
+  left: 50%;
+  top: 50%;
+
+  /*centers the component*/
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+
+  /*border properties*/
+  border-right-style: solid;
+  border-right-color: white;
+  border-right-width: 1px;
 }
 
 .position_text{
@@ -289,13 +309,6 @@ img:hover {
   /*centers the component*/
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
-
-  /*border properties*/
-  border-right-style: solid;
-  border-right-color: white;
-  border-right-width: 1px;
-  padding: 6px 10px 6px 15px;
-
 }
 
 /*the div holding the title information*/
