@@ -320,6 +320,12 @@ img:hover {
   top: 50%;
   -webkit-transform: translate(0%, -50%);
   transform: translate(0%, -50%);
+
+  /*makes sure the title only takes one line and puts an elipsis on overflow*/
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow-y: hidden;
 }
 
 /*div holding the time information*/
