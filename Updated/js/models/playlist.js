@@ -294,8 +294,10 @@ uPlaylist.Playlist = Backbone.Model.extend({
 });
 
 function padNum(number){
-  var number_string = new String(number);
+  var number_string = number.toString();
   var i = 0, j = uPlaylist.digits - number_string.length;
+
+  // pad number with 0s at the start
   for(i = 0; i < j; i++){
     number_string = '0' + number_string;
   }

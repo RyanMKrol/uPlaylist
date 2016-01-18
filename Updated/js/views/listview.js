@@ -6,7 +6,7 @@ uPlaylist.ListView = Backbone.View.extend({
   //template associated with the view
   template: _.template("../../tpl/ListView.html"),
   className: 'list_holder',
-
+  
   //renders the view
   render: function () {
 

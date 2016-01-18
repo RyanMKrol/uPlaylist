@@ -15,8 +15,8 @@ uPlaylist.AppRouter = Backbone.Router.extend({
 
   // When an instance of an AppRouter is declared, create a Header view
   initialize: function() {
-    this.playlistCollection = new uPlaylist.Playlists();
-    this.playlistCollection.fetch();
+    uPlaylist.playlistCollection = new uPlaylist.Playlists();
+    uPlaylist.playlistCollection.fetch();
   },
 
   home: function() {
@@ -25,15 +25,15 @@ uPlaylist.AppRouter = Backbone.Router.extend({
     var playlistModel = new uPlaylist.Playlist();
 
     //makes the new collection if one doesn't exist
-    if(!this.playlistCollection){
-      this.playlistCollection = new uPlaylist.Playlists();
+    if(!uPlaylist.playlistCollection){
+      uPlaylist.playlistCollection = new uPlaylist.Playlists();
     }
 
     //making the view with the model and collection
-    this.homeView = new uPlaylist.Home({model : playlistModel, collection: this.playlistCollection});
+    this.homeView = new uPlaylist.Home({model : playlistModel, collection: uPlaylist.playlistCollection});
     $('#content').html(this.homeView.render().el);
 
-    this.availablePlaylistsHomeView = new uPlaylist.AvailablePlaylistsHome({collection: this.playlistCollection});
+    this.availablePlaylistsHomeView = new uPlaylist.AvailablePlaylistsHome({collection: uPlaylist.playlistCollection});
     $('#content').append(this.availablePlaylistsHomeView.render().el);
   },
   list: function(id){
@@ -47,12 +47,12 @@ uPlaylist.AppRouter = Backbone.Router.extend({
 
     //get the model and playlist
     var playlistModel;
-    if(!self.playlistCollection){
-      self.playlistCollection = new uPlaylist.Playlists();
+    if(!uPlaylist.playlistCollection){
+      uPlaylist.playlistCollection = new uPlaylist.Playlists();
     }
 
     //get the playlist we want from the collection
-    playlistModel = self.playlistCollection.get(id);
+    playlistModel = uPlaylist.playlistCollection.get(id);
 
     //set the current playlist, used for the video player
     uPlaylist.currentPlaylist = playlistModel;
@@ -77,7 +77,7 @@ uPlaylist.AppRouter = Backbone.Router.extend({
           $('#content').html(self.listView.render().el);
 
           //make the list view, then render it
-          self.availablePlaylistsContentView = new uPlaylist.AvailablePlaylistsContent({collection : self.playlistCollection});
+          self.availablePlaylistsContentView = new uPlaylist.AvailablePlaylistsContent({collection : uPlaylist.playlistCollection});
           $('#content').append(self.availablePlaylistsContentView.render().el);
 
           // makes the list reorderable
@@ -161,14 +161,3 @@ $(document).on("remove_loader", function(){
   $('#loader-wrapper').css('pointer-events', 'none');
 
 });
-
-/*
-To Do List:
-  * Change the playlist naming to have a global counter instead of counting the current number
-  * Make the ordering changeable
-  * UI
-  * Add a cool fade effect with the playlist name over the thumbnails
-  * Styling
-  * Allow playlist renaming
-
-*/

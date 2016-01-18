@@ -1,7 +1,7 @@
-<li onclick = "changePlayerSource('<%-song_id%>');">
+<li class='playlistItem'>
   <div class='position'><div class='position_border'><span class='position_text'><%-position%></span></div></div>
   <!-- <div class='thumbnail'><img src = "<%-thumbnail%>"></img></div> -->
-  <div class='title'><span class='title_text'><%-title%></span></div>
+  <div class='title' onclick = "changePlayerSource('<%-song_id%>');"><span class='title_text'><%-title%></span></div>
   <div class='handle'><div class='handle_content'><i class="fa fa-bars"></i></div></div>
   <div class='time'><div class='time_border'><div class='time_text'><%-minutes%>:<%-seconds%></div></div></div>
 </li>
