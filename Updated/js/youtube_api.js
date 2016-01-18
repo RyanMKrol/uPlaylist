@@ -30,13 +30,37 @@ function onYouTubePlayerAPIReady() {
         var first_element = $('.title').eq(0);
         changePlayerSource(first_element, uPlaylist.currentPlaylist.attributes.songs[0].song_id);
       },
-      'onStateChange': onPlayerStateChange
+      'onStateChange': onPlayerStateChange,
+      'onError' : onPlayerError
     }
   });
 }
 
+function onPlayerError(event){
+
+  // error handling - I mainly expect this to be embedded issues, but I've included
+  // the others just in case
+  if(event.data === 2){
+    alert('Error 2  - Something very strange occured. Playing next video!');
+  } else if(event.data === 5){
+    alert('Error 5  - HTML5 Video Player error. Playing next video!');
+  } else if(event.data === 100){
+    alert('Error 100  - Video was somehow not found. Playing next video!');
+  } else if(event.data === 101){
+    alert('Error 101  - Video Cannot be played in embedded players, Sorry! Playing next video!');
+  } else if(event.data === 150){
+    alert('Error 150  - Video Cannot be played in embedded players, Sorry! Playing next video!');
+  }
+
+  // gets the next song
+  getNextPosition();
+}
+
 //when the video changes state
 function onPlayerStateChange(event) {
+
+  console.log("state changed");
+  console.log(event.data);
 
   // when a video ends
   if(event.data === 0) {
@@ -50,7 +74,10 @@ function changePlayerSource(element, id){
 
   // resets the colour of the text to white, so i can set the colour of the next item
   $('li').css('color', 'white');
+
+  // sets up the new currently playing song
   uPlaylist.currentlyPlaying = id;
+
   $(element).parent().css('color', 'blue');
   uPlaylist.player.loadVideoById(id, 0);
 }
@@ -73,8 +100,6 @@ function getNextPosition(){
       // finds it, changes the currentlyPlaying variable and plays the next song
       uPlaylist.currentlyPlaying = val.song_id;
 
-      changePlayerSource(null, uPlaylist.currentlyPlaying);
-
       // trying to do a text search on the divs here to find the id
       $('.playlistItem').each(function(list_key, list_val){
 
@@ -83,12 +108,12 @@ function getNextPosition(){
 
         // checks to see if this is the element with the currently playing id
         if(thing.indexOf(uPlaylist.currentlyPlaying) !== -1){
-          console.log(list_val);
-          $(list_val).css('color', 'blue');
+
+          // highlights the new currently playing song, uses child to allow uniform
+          // behaviour in the changePlayerSource function which relies on clicking a child
+          // when manually changing the song
+          changePlayerSource($(list_val).children().eq(0), uPlaylist.currentlyPlaying);
         }
-        // if(list_val.indexOf(uPlaylist.currentlyPlaying) !== -1){
-        //   $(uPlaylist.currentlyPlaying).css('color', 'blue');
-        // }
       });
     }
   });
