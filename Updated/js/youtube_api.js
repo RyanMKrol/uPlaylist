@@ -40,10 +40,29 @@ function onPlayerStateChange(event) {
 
     // resets the colour of the text to white, so i can set the colour of the next item
     $('li').css('color', 'white');
+    getNextPosition();
   }
 }
 
 function changePlayerSource(element, id){
+  uPlaylist.currentlyPlaying = id;
   $(element).parent().css('color', 'blue');
   uPlaylist.player.loadVideoById(id, 0);
+}
+
+function getNextPosition(){
+  var current_position = 0;
+  $.each(uPlaylist.currentPlaylist.attributes.songs, function(key, val){
+    if(val.song_id == uPlaylist.currentlyPlaying){
+      console.log(val.position);
+      console.log(parseInt(val.position));
+      current_position = parseInt(val.position)+1;
+    }
+  });
+  $.each(uPlaylist.currentPlaylist.attributes.songs, function(key, val){
+    if(val.position == current_position){
+      uPlaylist.currentlyPlaying = val.song_id;
+      changePlayerSource(null, uPlaylist.currentlyPlaying);
+    }
+  });
 }
