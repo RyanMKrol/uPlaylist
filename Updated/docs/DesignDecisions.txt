@@ -1,0 +1,11 @@
+Deciding whether or not to include the video player
+  Pros:
+    Gives the users feedback if for example a video isn’t available in their country
+    Allows users to view the player if they want
+    User can actually control seeking and fullscreen themselves if they want
+  Cons:
+    No current fullscreen support, this could look real messy
+    Potentially more time than it’s worth
+
+  Overall:
+    Going to be keeping the video player. Being able to pause, change the volume and full screen is invaluable, so I’ll be keeping it in
