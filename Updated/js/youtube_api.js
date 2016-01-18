@@ -18,7 +18,6 @@ function onYouTubePlayerAPIReady() {
   uPlaylist.player = new YT.Player('player', {
     height: '360',
     width: '640',
-    videoId: uPlaylist.currentPlaylist.attributes.songs[0].song_id,
     playerVars: {
       'controls': 1,
       'modestbranding': 1,
@@ -26,7 +25,11 @@ function onYouTubePlayerAPIReady() {
       'autoplay': 0
     },
     events: {
-      'onReady': function(){$(document).trigger("finished_loading_player");},
+      'onReady': function(){
+        $(document).trigger("finished_loading_player");
+        var first_element = $('.title').eq(0);
+        changePlayerSource(first_element, uPlaylist.currentPlaylist.attributes.songs[0].song_id);
+      },
       'onStateChange': onPlayerStateChange
     }
   });
@@ -38,13 +41,15 @@ function onPlayerStateChange(event) {
   // when a video ends
   if(event.data === 0) {
 
-    // resets the colour of the text to white, so i can set the colour of the next item
-    $('li').css('color', 'white');
+    // gets the next videoe to play
     getNextPosition();
   }
 }
 
 function changePlayerSource(element, id){
+
+  // resets the colour of the text to white, so i can set the colour of the next item
+  $('li').css('color', 'white');
   uPlaylist.currentlyPlaying = id;
   $(element).parent().css('color', 'blue');
   uPlaylist.player.loadVideoById(id, 0);
@@ -68,9 +73,23 @@ function getNextPosition(){
       // finds it, changes the currentlyPlaying variable and plays the next song
       uPlaylist.currentlyPlaying = val.song_id;
 
-      // trying to do a text search on the divs here to find the id
-      console.log($('.title:contains(uPlaylist.currentlyPlaying)'));
       changePlayerSource(null, uPlaylist.currentlyPlaying);
+
+      // trying to do a text search on the divs here to find the id
+      $('.playlistItem').each(function(list_key, list_val){
+
+        // gets something that i can then search to find the right element
+        var thing = String($(list_val).html());
+
+        // checks to see if this is the element with the currently playing id
+        if(thing.indexOf(uPlaylist.currentlyPlaying) !== -1){
+          console.log(list_val);
+          $(list_val).css('color', 'blue');
+        }
+        // if(list_val.indexOf(uPlaylist.currentlyPlaying) !== -1){
+        //   $(uPlaylist.currentlyPlaying).css('color', 'blue');
+        // }
+      });
     }
   });
 }
