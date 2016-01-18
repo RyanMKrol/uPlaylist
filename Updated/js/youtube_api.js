@@ -59,9 +59,6 @@ function onPlayerError(event){
 //when the video changes state
 function onPlayerStateChange(event) {
 
-  console.log("state changed");
-  console.log(event.data);
-
   // when a video ends
   if(event.data === 0) {
 
@@ -73,12 +70,15 @@ function onPlayerStateChange(event) {
 function changePlayerSource(element, id){
 
   // resets the colour of the text to white, so i can set the colour of the next item
-  $('li').css('color', 'white');
+  $('#listContent > li').css('color', 'white');
 
   // sets up the new currently playing song
   uPlaylist.currentlyPlaying = id;
 
+  // parent is used because the onclick is done on a child of the list item
   $(element).parent().css('color', 'blue');
+
+  // load the current video
   uPlaylist.player.loadVideoById(id, 0);
 }
 

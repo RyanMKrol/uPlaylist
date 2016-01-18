@@ -11,6 +11,7 @@ function setSortable() {
     scrollSensitivity: 100,
     scrollSpeed: 10,
     stop: elementDropped,
+    cursor: '-webkit-grabbing'
   });
   $( "#listContent" ).disableSelection();
 }

@@ -111,7 +111,7 @@ html, body, main, #mainrow, #content {
 }
 
 /*the style for the youtube player*/
-#player {
+#player_holder{
 
   /*positional properties*/
   position: fixed;
@@ -121,8 +121,6 @@ html, body, main, #mainrow, #content {
   /*centers the component*/
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
-
-  
 
 }
 
@@ -205,7 +203,32 @@ img:hover {
 
 /*i currently don't want to display this on the content page*/
 #playlistsAvailableContent{
-  display: none;
+  position: absolute;
+  left: 0%;
+  width: 200px;
+  z-index: 1000;
+  background-color: #eeeeee;
+
+  border-style: solid;
+  border-color: #dedede;
+}
+
+#playlistsAvailableContent li{
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow-y: hidden;
+
+  background-color: rgb(230,230,230);
+  margin-top: 5px;
+  margin-bottom: 5px;
+
+  text-align:left;
+}
+#playlistsAvailableContent li a{
+  color: black;
+  text-decoration: none;
+  padding-left: 5px;
 }
 
 /*content fills the page*/
@@ -416,10 +439,15 @@ img:hover {
   top: 50%;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
+
+  cursor: -webkit-grab;
 }
 
 @media only screen and (min-width: 1000px) {
   #listContent {
+    font-size: 22px;
+  }
+  #playlistsAvailableContent li{
     font-size: 22px;
   }
   /*the div holding the title information*/
@@ -431,6 +459,9 @@ img:hover {
   #listContent {
     font-size: 20px;
   }
+  #playlistsAvailableContent li{
+    font-size: 20px;
+  }
   /*the div holding the title information*/
   .title {
     width: 400px;
@@ -440,6 +471,9 @@ img:hover {
   #listContent {
     font-size: 18px;
   }
+  #playlistsAvailableContent li{
+    font-size: 18px;
+  }
   /*the div holding the title information*/
   .title {
     width: 270px;
@@ -447,6 +481,9 @@ img:hover {
 }
 @media only screen and (max-width: 600px) {
   #listContent {
+    font-size: 16px;
+  }
+  #playlistsAvailableContent li{
     font-size: 16px;
   }
 
@@ -460,6 +497,9 @@ img:hover {
 }
 @media only screen and (max-width: 460px) {
   #listContent {
+    font-size: 16px;
+  }
+  #playlistsAvailableContent li{
     font-size: 16px;
   }
 
