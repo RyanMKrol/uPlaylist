@@ -50,18 +50,26 @@ function changePlayerSource(element, id){
   uPlaylist.player.loadVideoById(id, 0);
 }
 
+// gets the next song in the list to play
 function getNextPosition(){
   var current_position = 0;
+
+  // goes through the list of songs looking for the one we're currently playing
   $.each(uPlaylist.currentPlaylist.attributes.songs, function(key, val){
     if(val.song_id == uPlaylist.currentlyPlaying){
-      console.log(val.position);
-      console.log(parseInt(val.position));
-      current_position = parseInt(val.position)+1;
+      // finds it and parses the position
+      current_position = (parseInt(val.position)+1) % uPlaylist.currentPlaylist.attributes.songs.length;
     }
   });
+
+  // goes through the list again looking for the next song to play
   $.each(uPlaylist.currentPlaylist.attributes.songs, function(key, val){
     if(val.position == current_position){
+      // finds it, changes the currentlyPlaying variable and plays the next song
       uPlaylist.currentlyPlaying = val.song_id;
+
+      // trying to do a text search on the divs here to find the id
+      console.log($('.title:contains(uPlaylist.currentlyPlaying)'));
       changePlayerSource(null, uPlaylist.currentlyPlaying);
     }
   });
