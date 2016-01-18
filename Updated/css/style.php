@@ -121,7 +121,22 @@ html, body, main, #mainrow, #content {
   /*centers the component*/
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
+}
+.show{
+  visibility:visible;
+}
 
+.hide{
+  visibility:hidden;
+}
+
+.toggle_fullscreen{
+  position: fixed;
+  left: 2%;
+  bottom: 5%;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
 }
 
 /* div holding the image tags */

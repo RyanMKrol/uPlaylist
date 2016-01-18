@@ -6,7 +6,21 @@ uPlaylist.ListView = Backbone.View.extend({
   //template associated with the view
   template: _.template("../../tpl/ListView.html"),
   className: 'list_holder',
-  
+
+  events: {
+      "click button": "hidePlayer"
+  },
+
+  // switches up the visibility css
+  hidePlayer : function(){
+
+    if($('#player_holder').css('visibility') === 'hidden'){
+      $('#player_holder').css('visibility', 'visible');
+    } else {
+      $('#player_holder').css('visibility', 'hidden');
+    }
+  },
+
   //renders the view
   render: function () {
 
