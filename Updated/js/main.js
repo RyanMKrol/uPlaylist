@@ -80,6 +80,8 @@ uPlaylist.AppRouter = Backbone.Router.extend({
           self.availablePlaylistsContentView = new uPlaylist.AvailablePlaylistsContent({collection : self.playlistCollection});
           $('#content').append(self.availablePlaylistsContentView.render().el);
 
+          // makes the list reorderable
+          setSortable();
 
           //if a playerView already exists, the appending must be done manually
           if(!self.playerView){

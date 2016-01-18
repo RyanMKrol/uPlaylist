@@ -19,6 +19,8 @@ uPlaylist.ListView = Backbone.View.extend({
       this.$('#listContent').append(this.playlistItem.render().el);
     }
 
+    setSortable();
+
     return this;
   }
 });
