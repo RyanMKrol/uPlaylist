@@ -37,10 +37,13 @@ function onPlayerStateChange(event) {
 
   // when a video ends
   if(event.data === 0) {
-    console.log("video has ended");
+
+    // resets the colour of the text to white, so i can set the colour of the next item
+    $('li').css('color', 'white');
   }
 }
 
-function changePlayerSource(id){
+function changePlayerSource(element, id){
+  $(element).parent().css('color', 'blue');
   uPlaylist.player.loadVideoById(id, 0);
 }

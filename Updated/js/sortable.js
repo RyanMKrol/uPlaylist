@@ -44,10 +44,10 @@ function elementDropped(event, ui){
   // persists the playlist
   uPlaylist.currentPlaylist.save({songs: new_songs_array}, {
     success: function(){
-      console.log("saving successful");
+      console.log("Saving successful");
     },
     error: function(){
-      console.log("saving unsuccessful");
+      console.log("Saving unsuccessful");
     }
   });
 }

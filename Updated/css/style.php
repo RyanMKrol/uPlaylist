@@ -122,8 +122,6 @@ html, body, main, #mainrow, #content {
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 
-  display: none;
-
 }
 
 /* div holding the image tags */
@@ -234,6 +232,7 @@ img:hover {
   /*border properties*/
   border-bottom-style: solid;
   border-bottom-width: 1px;
+  border-bottom-color: white;
 
   /*positional and size properties*/
   width: 75%;
@@ -260,6 +259,7 @@ img:hover {
   border-style: solid;
   border-width: 1px;
   border-bottom-style: none;
+  border-color:white;
 
   /*misc properties*/
   margin: auto;
@@ -323,6 +323,8 @@ img:hover {
   /*size properties*/
   height: 100%;
   width: 60%;
+
+  cursor: pointer;
 }
 
 /*div used for centering the text itself*/
@@ -400,6 +402,7 @@ img:hover {
   /*border properties*/
   border-left-style:solid;
   border-left-width:1px;
+  border-left-color:white;
 }
 
 /*centering the handle itself*/
