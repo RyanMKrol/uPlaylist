@@ -9,3 +9,7 @@ Deciding whether or not to include the video player
 
   Overall:
     Going to be keeping the video player. Being able to pause, change the volume and full screen is invaluable, so I’ll be keeping it in
+
+Deciding whether to use JQuery UIs switchClass method:
+I was going to use this, but it made my button do a really weird intermediary
+transition. Just using my own switch remedies this 

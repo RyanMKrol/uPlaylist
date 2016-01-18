@@ -134,9 +134,28 @@ html, body, main, #mainrow, #content {
   position: fixed;
   left: 2%;
   bottom: 5%;
-  width: 25px;
-  height: 25px;
   cursor: pointer;
+  text-align:center;
+  border-style: solid;
+  border-width: 1px;
+  border-color: white;
+  border-radius: 10px;
+}
+.toggle_fullscreen i {
+
+  /*the icon is a little one sided, so i need extra padding on the left*/
+  padding: 5px 5px 5px 7px;
+}
+
+.active_button{
+  color:blue;
+  background-color: #eee;
+  outline: 0;
+}
+.inactive_button{
+  color:white;
+  background-color:#dedede;
+  outline: 0;
 }
 
 /* div holding the image tags */
