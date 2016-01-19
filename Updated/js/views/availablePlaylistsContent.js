@@ -6,6 +6,16 @@ uPlaylist.AvailablePlaylistsContent = Backbone.View.extend({
   //template associated with the view
   template: _.template("../../tpl/AvailablePlaylistsContent.html"),
 
+  className: 'playlist_navigation',
+
+  events: {
+      "click #tab": "revealList"
+  },
+
+  revealList: function(){
+    $('.playlist_navigation').toggleClass('revealed');
+  },
+
   //renders the view
   render: function () {
 

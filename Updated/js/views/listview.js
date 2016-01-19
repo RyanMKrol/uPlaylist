@@ -14,14 +14,14 @@ uPlaylist.ListView = Backbone.View.extend({
   // switches up the visibility css
   hidePlayer : function(){
 
-    if($('#player_holder').css('visibility') === 'hidden'){
-      $('#player_holder').css('visibility', 'visible');
+    if($('#player_holder').css('display') === 'none'){
+      $('#player_holder').css('display', 'block');
       $('.toggle_fullscreen').removeClass('inactive_button');
       $('.toggle_fullscreen').addClass('active_button');
     } else {
-      $('#player_holder').css('visibility', 'hidden');
-      $('.toggle_fullscreen').addClass('inactive_button');
+      $('#player_holder').css('display', 'none');
       $('.toggle_fullscreen').removeClass('active_button');
+      $('.toggle_fullscreen').addClass('inactive_button');
     }
   },
 

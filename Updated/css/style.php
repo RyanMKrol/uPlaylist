@@ -121,14 +121,39 @@ html, body, main, #mainrow, #content {
   /*centers the component*/
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
-}
-.show{
-  visibility:visible;
+
+  display:none;
 }
 
-.hide{
-  visibility:hidden;
+.playlist_navigation{
+  position: absolute;
+  top: 0px;
+  left: -206px;
+  -webkit-transition: all 0.4s; /* Safari */
+    transition: all 0.4s;
 }
+
+.playlist_navigation.revealed{
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  -webkit-transition: all 0.4s; /* Safari */
+    transition: all 0.4s;
+}
+
+#tab {
+  position: absolute;
+  left: 200px;
+  top: -5px;
+
+  height: 100px;
+  width: 0px;
+
+  border-left: 25px solid #dedede;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+}
+
 
 .toggle_fullscreen{
   position: fixed;
@@ -238,13 +263,15 @@ img:hover {
 /*i currently don't want to display this on the content page*/
 #playlistsAvailableContent{
   position: absolute;
-  left: 0%;
-  width: 200px;
-  z-index: 1000;
-  background-color: #eeeeee;
-
-  border-style: solid;
-  border-color: #dedede;
+    left: 0%;
+    width: 200px;
+    z-index: 1000;
+    background-color: #eeeeee;
+    min-height: 110px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #dedede;
+    border-right-style: none;
 }
 
 #playlistsAvailableContent li{
