@@ -604,7 +604,7 @@ img:hover {
 #loader-wrapper .loader-section {
     position: fixed;
     top: 0;
-    width: 51%;
+    width: 52%;
     height: 100%;
     background: #222222;
     z-index: 1000;
@@ -614,11 +614,11 @@ img:hover {
 }
 
 #loader-wrapper .loader-section.section-left {
-    left: -51%;
+    right: 100%;
 }
 
 #loader-wrapper .loader-section.section-right {
-    right: -51%;
+    left: 100%;
 }
 
 /* once the website has done it's business the black screens will move out of the way */
