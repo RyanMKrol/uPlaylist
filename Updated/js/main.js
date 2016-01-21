@@ -133,9 +133,6 @@ uPlaylist.utils.loadTemplates([
 // changes the style of the current list item in the playlist navigation menu
 function setCurrentListItem(id){
 
-  // remove the current class from the current playlist
-  $('#playlistsAvailableContent li').removeClass('current');
-
   // go through each anchor
   $('#playlistsAvailableContent li a').each(function(key, val){
 

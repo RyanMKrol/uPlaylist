@@ -9,7 +9,19 @@ uPlaylist.AvailablePlaylistsContent = Backbone.View.extend({
   className: 'playlist_navigation',
 
   events: {
-      "click #tab": "revealList"
+      "click #tab": "revealList",
+      "click a" : "changeCurrent"
+  },
+
+  // this behaviour is just for when the user immediately clicks the button
+  //  it will be done again inside main when this view is recreated
+  changeCurrent: function(event){
+
+    // changes all list items to not be current as there can be only one ;)
+    $('#playlistsAvailableContent li').removeClass('current');
+
+    // sets the element clicked to be the current playlist
+    $(event.target).parent().addClass('current');
   },
 
   revealList: function(){
