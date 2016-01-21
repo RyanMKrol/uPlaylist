@@ -80,6 +80,8 @@ uPlaylist.AppRouter = Backbone.Router.extend({
           self.availablePlaylistsContentView = new uPlaylist.AvailablePlaylistsContent({collection : uPlaylist.playlistCollection});
           $('#content').append(self.availablePlaylistsContentView.render().el);
 
+          setCurrentListItem(id);
+
           // makes the list reorderable
           setSortable();
 
@@ -126,6 +128,26 @@ uPlaylist.utils.loadTemplates([
   uPlaylist.app = new uPlaylist.AppRouter();
   Backbone.history.start();
 });
+
+
+// changes the style of the current list item in the playlist navigation menu
+function setCurrentListItem(id){
+
+  // remove the current class from the current playlist
+  $('#playlistsAvailableContent li').removeClass('current');
+
+  // go through each anchor
+  $('#playlistsAvailableContent li a').each(function(key, val){
+
+    // see which has the href equal to the current id
+    if($(val).attr('href') === ('#' + id)){
+
+      // set the list item class to be current
+      $(val).parent().addClass('current');
+    }
+  });
+}
+
 
 /*  EVENT HANDLERS  */
 //used to listen for the end of the loading animation

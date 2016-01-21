@@ -285,6 +285,15 @@ img:hover {
   margin-bottom: 5px;
 
   text-align:left;
+
+  -webkit-transition: all 0.3s ease-out;
+          transition: all 0.3s ease-out;
+}
+#playlistsAvailableContent li.current{
+
+  background-color: rgb(220,220,220);
+  -webkit-transition: all 0.3s ease-out;
+          transition: all 0.3s ease-out;
 }
 #playlistsAvailableContent li a{
   color: black;

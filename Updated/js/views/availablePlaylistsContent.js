@@ -28,6 +28,7 @@ uPlaylist.AvailablePlaylistsContent = Backbone.View.extend({
     //holds each item to be added to the view
     var item;
 
+    // goes through each of the models and makes a playlist item for the list
     $.each(self.collection.models, function (key, val){
       item = new uPlaylist.AvailablePlaylistContent({model: val});
       self.$('#playlistsAvailableContent').append(item.render().el);
