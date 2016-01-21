@@ -126,7 +126,7 @@ html, body, main, #mainrow, #content {
 }
 
 .playlist_navigation{
-  position: absolute;
+  position: fixed;
   top: 0px;
   left: -206px;
   -webkit-transition: all 0.4s; /* Safari */
@@ -134,7 +134,7 @@ html, body, main, #mainrow, #content {
 }
 
 .playlist_navigation.revealed{
-  position: absolute;
+  position: fixed;
   top: 0px;
   left: 0px;
   -webkit-transition: all 0.4s; /* Safari */
