@@ -3,12 +3,62 @@
 header("Content-type: text/css; charset: UTF-8");
 
 // first array of colour
-$array1 = array("F1F2B5","7b4397","8e9eab","136a8a","00bf8f","ffb347","43cea2","D38312","73C8A9","83a4d4","52c234", "fe8c00","556270","9D50BB","B3FFAB","DAD299","215f00","3D7EAA",
-                "1CD8D2","134E5E","2BC0E4","085078","1D976C","4CB8C4","1A2980","F09819","3CA55C","348F50");
+$array1 = array("F1F2B5",
+"7b4397",
+"136a8a",
+"00bf8f",
+"ffb347",
+"43cea2",
+"D38312",
+"73C8A9",
+"83a4d4",
+"52c234",
+"fe8c00",
+"556270",
+"9D50BB",
+"B3FFAB",
+"DAD299",
+"215f00",
+"3D7EAA",
+"1CD8D2",
+"134E5E",
+"2BC0E4",
+"085078",
+"1D976C",
+"4CB8C4",
+"1A2980",
+"F09819",
+"3CA55C",
+"348F50");
 
 // second array of colour
-$array2 = array("135058","dc2430","eef2f3","267871","001510","ffcc33","185a9d","A83279","373B44","b6fbff","061700", "f83600","FF6B6B","6E48AA","12FFF7","B0DAB9","e4e4d9","FFE47A",
-                "93EDC7","71B280","EAECC6","85D8CE","93F9B9","3CD3AD","26D0CE","EDDE5D","B5AC49","56B4D3");
+$array2 = array("135058",
+"dc2430",
+"267871",
+"001510",
+"ffcc33",
+"185a9d",
+"A83279",
+"373B44",
+"b6fbff",
+"061700",
+"f83600",
+"FF6B6B",
+"6E48AA",
+"12FFF7",
+"B0DAB9",
+"e4e4d9",
+"FFE47A",
+"93EDC7",
+"71B280",
+"EAECC6",
+"85D8CE",
+"93F9B9",
+"3CD3AD",
+"26D0CE",
+"EDDE5D",
+"B5AC49",
+"56B4D3");
 
 // gets a random index into these array
 $index  = rand(0, count($array1)-1);
