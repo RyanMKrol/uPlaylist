@@ -129,7 +129,7 @@ uPlaylist.Playlist = Backbone.Model.extend({
           song.set('title', val.snippet.title);
           song.set('thumbnail', val.snippet.thumbnails.default.url);
           song.set('song_id', val.snippet.resourceId.videoId);
-          song.set('position', padNum(position++));
+          song.set('position', padNum((position++)+1));
 
           //used to get the runtimes from YouTube's API
           id_string += val.snippet.resourceId.videoId + '%2C+';
