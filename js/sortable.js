@@ -1,3 +1,8 @@
+/*
+The purpose of this file is to define the behaviour with the JQuery Sortable widget.
+Once you pick something up and drop it, you should persist the new order of the platlist
+*/
+
 // catch simple errors
 "use strict";
 

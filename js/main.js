@@ -36,6 +36,7 @@ uPlaylist.AppRouter = Backbone.Router.extend({
     this.availablePlaylistsHomeView = new uPlaylist.AvailablePlaylistsHome({collection: uPlaylist.playlistCollection});
     $('#content').append(this.availablePlaylistsHomeView.render().el);
   },
+
   list: function(id){
 
     //used to avoid scoping issues
@@ -178,5 +179,4 @@ $(document).on("remove_loader", function(){
   //remove the loading animation
   $('body').switchClass("loading", "loaded");
   $('#loader-wrapper').css('pointer-events', 'none');
-
 });

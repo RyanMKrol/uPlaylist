@@ -13,3 +13,8 @@ Deciding whether or not to include the video player
 Deciding whether to use JQuery UIs switchClass method:
 I was going to use this, but it made my button do a really weird intermediary
 transition. Just using my own switch remedies this 
+
+I appear to hash the joined IDs of all of the song IDs, for the sake of checking 
+if there has been any change to the playlist later on. I think that this is fairly
+redundant though as a list of IDs will be in itself, unique.
+	I guess it has one benefit of being smaller to store, and easier to compare.

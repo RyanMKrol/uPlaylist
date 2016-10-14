@@ -46,6 +46,8 @@ uPlaylist.Playlist = Backbone.Model.extend({
 
     //request is built here and sent here because apiCall is recursive
     var request = uPlaylist.api_URL_base.concat(this.attributes.playlist_id).concat('&key=').concat(uPlaylist.api_key);
+
+    //builds up the data in []
     this.apiCall(request, []);
   },
 
@@ -64,7 +66,7 @@ uPlaylist.Playlist = Backbone.Model.extend({
 
     //get the data from the api
     $.ajax({
-      async    : true,
+      async    : true,    //to keep order over the items
       url      : request,
       type     : 'GET',
       success  : function(data) {
@@ -84,6 +86,7 @@ uPlaylist.Playlist = Backbone.Model.extend({
           self.attributes.total_songs = data.pageInfo.totalResults;
           self.attributes.needs_updating = 0;
           self.attributes.thumbnail = data.items[0].snippet.thumbnails.high.url;
+
           //parse the data and actually update the model
           self.parseData(all_data, false);
         }
@@ -137,7 +140,7 @@ uPlaylist.Playlist = Backbone.Model.extend({
           //pushing each id to the md5 array for hashing later
           md5_array.push(val.snippet.resourceId.videoId);
 
-          //api can only take 50 things at a time, so flush the data on the 50th
+          //api can only take 50 things at a time, so flush the data to the array on the 50th
           if(position % 49 == 0){
             api_song_data.push(id_string);
             id_string = "";
@@ -156,8 +159,7 @@ uPlaylist.Playlist = Backbone.Model.extend({
     if(id_string != "")
       api_song_data.push(id_string);
 
-    //i need to sort the ids to account for any change in ordering of songs The
-    // user might do on youtube.
+    //i need to sort the ids to account for any change in ordering of songs The user might do on youtube.
     md5_array.sort();
     //turn this array into a string
     var md5_string = md5(md5_array.join());
@@ -239,7 +241,7 @@ uPlaylist.Playlist = Backbone.Model.extend({
     });
   },
 
-  //have to put this outside of apiCheck because apiCheck is recursive
+  //begins the recusive call to apiCheck
   checkIfUpdateNeeded: function(){
     var request = uPlaylist.api_URL_base.concat(this.attributes.playlist_id).concat('&key=').concat(uPlaylist.api_key);
     this.apiCheck(request, []);
@@ -293,6 +295,7 @@ uPlaylist.Playlist = Backbone.Model.extend({
   }
 });
 
+//pads a number to be the same length as the longest number
 function padNum(number){
   var number_string = number.toString();
   var i = 0, j = uPlaylist.digits - number_string.length;
